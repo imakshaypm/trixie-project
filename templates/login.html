@@ -1,0 +1,38 @@
+{% extends "layout.html" %}
+{% block styles %}
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/login.css') }}">
+{% endblock %}
+{% block content %}
+<section class="whole-login">
+    <div class="login-left-side">
+        <div class="login-illu">
+            <div class="top-text-login">
+                <p style="font-family: PoppinsLight; font-size: 3vw;">Nice to see you again</p>
+                <p style="font-family: PoppinsBold; font-size: 3vw;">Welcome Back</p>
+            </div>
+            <img src="static/photos/login-illu.svg" style="max-width: 100%;">
+        </div>
+    </div>
+    <div class="login-right-side">
+        <p style="font-family: PoppinsBold; font-size: 6vw; text-align: center; color: #043665;">LOGIN</p>
+        <form>
+            <div class="form-group">
+                <label for="exampleInputEmail1">Email address</label>
+                <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
+                    placeholder="Enter email">
+                <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone
+                    else.</small>
+            </div>
+            <div class="form-group">
+                <label for="exampleInputPassword1">Password</label>
+                <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+            </div>
+            <div class="form-check">
+                <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                <label class="form-check-label" for="exampleCheck1">Check me out</label>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
+</section>
+{% endblock content %}

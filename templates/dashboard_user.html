@@ -1,0 +1,149 @@
+{% extends "layout.html" %}
+{% block styles %}
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/user_dashboard.css') }}">
+{% endblock %}
+{% block content %}
+<div class="user_dash">
+    <h1 style="text-align: center; letter-spacing: 10px; font-size: 40px; color: white; font-family: PoppinsBold; margin-top: 8%; margin-bottom: 3%;">
+        DASHBOARD
+    </h1>
+    <div class="user_info">
+        <div class="user">
+            <div style="margin-left: 30px; margin-top:50px; line-height: 20px; color: black; font-family: PoppinsBold;">
+                <p style="font-size: xx-large;">
+                    Hello,
+                </p>
+                <p style="font-size: x-large;">
+                    Akshay P M
+                </p>
+            </div>
+            <div class="circle">
+                <div class="single-chart">
+                    <svg viewBox="0 0 36 36" class="circular-chart orange">
+                        <path class="circle-bg" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                        <path class="circle" stroke-dasharray="30, 100"
+                            d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                    </svg>
+                </div>
+                <div class="profile">
+                    <img 
+                        style="border-radius: 50%;
+                            object-fit: cover;
+                            object-position: 25% 25%;  
+                            overflow:hidden;
+                            width: 80px; height: 80px;" 
+                        src="static/photos/profile_pic.jpeg" alt="">
+                </div>
+            </div>
+            <div style="margin-top: 5%; line-height: 20px; font-family: PoppinsBold;">
+                <p style="font-weight: 600; color: #043665; text-align: center; font-size: larger;">
+                    Akshay P M
+                </p>
+                <p style="font-weight: 600; color: #909090; text-align: center; font-size: large;">
+                    Student
+                </p>
+            </div>
+            <div style="margin-left: 50px; margin-top: 60px; line-height: 30px; font-family: PoppinsBold;">
+                <a href="#"><p style="font-weight: 600; color: #909090; font-size: large;">Overview</p></a>
+                <p style="font-weight: 600; color: #909090; font-size: large;">
+                    Calendar
+                </p>
+                <p style="font-weight: 600; color: #909090; font-size: large;">
+                    Projects
+                </p>
+            </div>
+        </div>
+        <div class="user_details">
+            <div class="user_scores">
+                <div class="interview_details">
+                    <div class="details_container">
+                        <img class="icons_user_scores" src="static\photos\dash_icon_1.png">
+                        <div class="text_inside_block">
+                            <p class="main_heading" >55</p>
+                            <p class="sub_heading" >Interview Got</p>
+                        </div>
+                    </div>
+                    <div class="details_container">
+                        <img class="icons_user_scores" src="static\photos\dash_icon_2.png">
+                        <div class="text_inside_block">
+                            <p class="main_heading">405</p>
+                            <p class="sub_heading">Interviews</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="resume_details">
+                    <div class="details_container">
+                        <img class="icons_user_scores" src="static\photos\dash_icon_3.png">
+                        <div class="text_inside_block">
+                            <p class="main_heading">85%</p>
+                            <p class="sub_heading">Resume Score</p>
+                        </div>
+                    </div>
+                    <div class="details_container">
+                        <img class="icons_user_scores" src="static\photos\dash_icon_4.png">
+                        <div class="text_inside_block">
+                            <p class="main_heading">5000</p>
+                            <p class="sub_heading">Points</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div style="display: flex; flex-direction: column; justify-content: center;">
+                <p class="heading_resumes_interviews">
+                    Last 3 Resume Screening
+                </p>
+                <div class="performance">
+                    <div class="top_one">
+                        <div class="icon_name">
+                            <img width="30px" height="30px" src="static\photos\png-apple-logo-9713.png">
+                            <p class="name_per">Apple Inc.</p>
+                        </div>
+                        <div class="single-chart-1">
+                            <svg viewBox="0 0 36 36" class="circular-chart orange">
+                                <path class="circle-bg" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                                <path class="circle" stroke-dasharray="30, 100"
+                                    d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                                <text x="18" y="20.35" class="percentage">30%</text>
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="top_one">
+                        <div class="icon_name">
+                            <img width="30px" height="30px" src="static\photos\png-apple-logo-9713.png">
+                            <p class="name_per">Google LLC</p>
+                        </div>
+                        <div class="single-chart-1">
+                            <svg viewBox="0 0 36 36" class="circular-chart orange">
+                                <path class="circle-bg" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                                <path class="circle" stroke-dasharray="78, 100"
+                                    d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                                <text x="18" y="20.35" class="percentage">78%</text>
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="top_one">
+                        <div class="icon_name">
+                            <img width="30px" height="30px" src="static\photos\png-apple-logo-9713.png">
+                            <p class="name_per"">Meta Platforms, Inc.</p>
+                        </div>
+                        <div class="single-chart-1">
+                            <svg viewBox="0 0 36 36" class="circular-chart orange">
+                                <path class="circle-bg" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                                <path class="circle" stroke-dasharray="48, 100"
+                                    d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                                <text x="18" y="20.35" class="percentage">48%</text>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+                <p class="heading_resumes_interviews">
+                    Last 3 Interview Performance
+                </p>
+                <div class="performance">
+                
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

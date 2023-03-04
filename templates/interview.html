@@ -1,0 +1,76 @@
+{% extends "layout.html" %}
+{% block styles %}
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/interview.css') }}">
+{% endblock %}
+{% block content %}
+<div class="wrapper">
+    <div class="title-interview">
+        <p style="font-family: PoppinsBold; color: #043665; font-size: 40px;">TCS Software Engineer Interview</p>
+        <div class="rec-date">
+            <p style="margin-right: 20px;">30 May 2022</p>
+            <p><i class="bi bi-record2" style="font-size: 17px; color: #F1414F;"></i>Recording 26:32</p>
+        </div>
+    </div>
+    <div class="interview-container">
+        <div class="vedio-and-buttons">
+            <div class="video-interface">
+                <div class="result-container">
+                    <div class="ml-result" id="emotion">Emotion</div>
+                    <div class="ml-result" id="gender">Gender</div>
+                    <div class="ml-result" id="age">Age</div>
+                </div>
+                <div class="container" style="height: 100%; width: 100%; position: absolute; display: flex; flex-direction: column; overflow:hidden ; background: #000; z-index: 0;">
+                    <video id="video" height="100%" width="100%" autoplay muted style=" z-index: 0; flex-grow: 1; display: flex; object-fit: cover;"></video>
+                </div>
+                <main id="visualizer" style="position: absolute; z-index: 99;" >
+                </main>
+            </div>
+            <div class="interview-buttons">
+                <div class="meet-icons">
+                    <button onclick="stopVedio()" class="rounded-buttons">
+                        <i class="bi bi-camera-video-off-fill" style="font-size: 30px;"></i>
+                    </button>
+                    <button onclick="cheack()" id="mic-button" class="rounded-buttons">
+                        <i id="mic-icon" class="bi bi-mic-mute-fill" style="font-size: 30px;"></i>
+                    </button>
+                    <input id="start-meeting" name="stop" type="submit" value="Start Meeting"
+                        style="outline: none; border: none; font-family: PoppinsBold; color: white; background: #043665; border-radius: 50px; text-align: center; padding: 20px; font-size: 20px; max-width: fit-content;" />
+                    <div class="rounded-buttons">
+                        <i class="bi bi-display-fill" style="font-size: 30px;"></i>
+                    </div>
+                    <div class="rounded-buttons">
+                        <i class="bi bi-badge-cc-fill" style="font-size: 30px;"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="message-interface">
+            <div class="top-texts">
+                <p style="font-family: PoppinsBold; color: #043665; font-size: 20px;">Questions and Answers</p>
+                <p style="font-family: PoppinsLight; color: #818A98; font-size: 15px;">You can chat here answer of questions during the meeting and they will be stored after the meeting.</p>
+            </div>
+            <div id="chatbox" style="overflow: scroll;
+                                    display: flex;
+                                    flex-direction: column;
+                                    flex-grow: 1;
+                                    margin-bottom: -17px;
+                                    scroll-behavior: smooth;
+                                    overscroll-behavior: contain;">
+                <h5 id="chat-timestamp" style=" font-family: Poppins; color: #043665; font-size: medium; text-align: center;"></h5>
+                <p id="botStarterMessage" class="botText"><span>Loading...</span></p>
+            </div>
+            <div id="chat-bar-bottom">
+                <p></p>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"
+    integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<!--Webcam setup js-->
+<script type="text/javascript" src="static/streaming.js"></script>
+<!--Chat.js-->
+<script type="text/javascript" src="static/chat.js"></script>
+<script type="text/javascript" src="static/response.js"></script>
+<script type="text/javascript" src="static/face-api.min.js"></script>
+{% endblock content %}
