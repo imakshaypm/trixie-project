@@ -41,7 +41,9 @@ h6 {
     src: url('../fonts/Poppins/Poppins-Light.ttf');
 }
 
-
+.site-header {
+    margin-bottom: -10px;
+}
 
 .site-header .navbar-nav .nav-link {
     color: white;
@@ -265,7 +267,6 @@ a.article-title:hover {
     0px -8.13901px 40.8203px rgba(0, 0, 0, 0.06), 
     0px -4.32257px 21.6793px rgba(0, 0, 0, 0.0484671), 
     0px -1.79872px 9.02126px rgba(0, 0, 0, 0.0337375);
-    bottom: 0;
     width: 100%;
 }
 
@@ -326,14 +327,12 @@ a.article-title:hover {
     align-items: center;
     flex-wrap: wrap;
     filter: drop-shadow(0px 100px 80px rgba(0, 0, 0, 0.11)) drop-shadow(0px 41.7776px 33.4221px rgba(0, 0, 0, 0.079074)) drop-shadow(0px 22.3363px 17.869px rgba(0, 0, 0, 0.0655718)) drop-shadow(0px 12.5216px 10.0172px rgba(0, 0, 0, 0.055)) drop-shadow(0px 6.6501px 5.32008px rgba(0, 0, 0, 0.0444282)) drop-shadow(0px 2.76726px 2.21381px rgba(0, 0, 0, 0.030926));
-    margin-bottom: 20%;
+    margin-bottom: 10%;
 }
 
 .f1-block {
     margin: 80px;
-    
 }
-
 
 .rectangle {
     position: absolute;
@@ -391,4 +390,14 @@ a.article-title:hover {
     color: white;
     text-align: center;
     transform: rotate(180deg);
+}
+
+footer {
+    position: relative;
+    z-index: 99;
+}
+
+.svg-container {
+    position: relative;
+    z-index: -1;
 }

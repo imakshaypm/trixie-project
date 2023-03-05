@@ -9,11 +9,17 @@
             <div class="top-text-login">
                 <p style="font-family: PoppinsLight; font-size: 3vw;">Nice to see you again</p>
                 <p style="font-family: PoppinsBold; font-size: 3vw;">Welcome Back</p>
+                <img src="static/photos/login-illu.svg" style="max-width: 100%;">
             </div>
-            <img src="static/photos/login-illu.svg" style="max-width: 100%;">
+            <div class="papper-rip">
+                <img src="static/photos/paper-rip.png" style="max-width: 100%;">
+            </div>
         </div>
     </div>
     <div class="login-right-side">
+        <button class="cross-icon" onclick="history.back()">
+            <i id="mic-icon" class="bi bi-x-lg" style="font-size: 40px; color: #FF8117;"></i>
+        </button>
         <p style="font-family: PoppinsBold; font-size: 6vw; text-align: center; color: #043665;">LOGIN</p>
         <form>
             <div class="form-group">
@@ -35,4 +41,5 @@
         </form>
     </div>
 </section>
+<script type="text/javascript" src="static/js/login.js"></script>
 {% endblock content %}
