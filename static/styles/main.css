@@ -147,6 +147,18 @@ a.article-title:hover {
             0px 2.76726px 2.21381px rgba(0, 0, 0, 0.0224916);
 }
 
+.top-line {
+    z-index: 99;
+}
+
+.line {
+    position: absolute;
+    z-index: 0;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+}
+
 .interview {
     margin-top: 10%;
     display: flex;
@@ -379,16 +391,4 @@ a.article-title:hover {
     color: white;
     text-align: center;
     transform: rotate(180deg);
-}
-
-.top-line {
-    z-index: 99;
-}
-
-.line {
-    position: absolute;
-    z-index: 0;
-    display: flex;
-    flex-wrap: wrap;
-    flex-direction: column;
 }
