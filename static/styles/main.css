@@ -3,6 +3,8 @@ html {
 }
 
 body {
+    display: flex;
+    flex-direction: column;
     background: #043665;
     color: #333333;
     margin-top: 5rem;
@@ -268,6 +270,7 @@ a.article-title:hover {
     0px -4.32257px 21.6793px rgba(0, 0, 0, 0.0484671), 
     0px -1.79872px 9.02126px rgba(0, 0, 0, 0.0337375);
     width: 100%;
+    
 }
 
 .nav-link {
@@ -392,9 +395,8 @@ a.article-title:hover {
     transform: rotate(180deg);
 }
 
-footer {
-    position: relative;
-    z-index: 99;
+p {
+    margin-bottom: 0p;
 }
 
 .svg-container {
