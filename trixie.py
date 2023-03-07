@@ -69,8 +69,11 @@ def interview():
 def dashboard_user():
     return render_template('dashboard_user.html', title = 'User')
 
-@app.route("/resume")
+@app.route("/resume", methods=['GET', 'POST'])
 def resume():
+    if request.method == 'POST':
+        text = json.loads(request.data) # .forms or .json
+        print(text['clicked'])
     return render_template('resume.html', title = 'Resume')
 
 
