@@ -3,6 +3,9 @@
 <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/login.css') }}">
 {% endblock %}
 {% block content %}
+<button class="cross-icon" onclick="history.back()">
+    <i id="mic-icon" class="bi bi-x-lg" style="font-size: 40px; color: #FF8117;"></i>
+</button>
 <section class="whole-login">
     <div class="login-left-side">
         <div class="login-illu">
@@ -17,10 +20,7 @@
         </div>
     </div>
     <div class="login-right-side">
-        <button class="cross-icon" onclick="history.back()">
-            <i id="mic-icon" class="bi bi-x-lg" style="font-size: 40px; color: #FF8117;"></i>
-        </button>
-        <p style="font-family: PoppinsBold; font-size: 6vw; text-align: center; color: #043665;">LOGIN</p>
+        <p style="font-family: PoppinsBold; font-size: 50px; text-align: center; color: #043665;">LOGIN</p>
         <form>
             <div class="form-group">
                 <label for="exampleInputEmail1">Email address</label>
