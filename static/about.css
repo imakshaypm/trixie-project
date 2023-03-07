@@ -1,0 +1,32 @@
+.whole-login {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    background: #FFD262;
+}
+
+.login-right-side {
+    margin-right: 30px;
+    align-self: center;
+    width: 40%;
+}
+
+.login-left-side {
+    width: 50%;
+}
+
+.login-illu {
+    display: flex;
+    flex-wrap: wrap;
+    flex-shrink: initial;
+    color: #043665;
+}
+
+
+.top-text-login {
+    margin-left: 20px;
+}
+
+.nav {
+    visibility: hidden;
+}
