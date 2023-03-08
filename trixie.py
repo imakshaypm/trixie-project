@@ -84,10 +84,10 @@ def resume():
     if request.method == 'POST':
         text = json.loads(request.data) # .forms or .json
         print()
-        if result:
-               users = mongo.db.Users.insert_one({"online": True})
-               #for doc in users:
-                #    print(doc) 
+        #if result:
+            #users = mongo.db.Users.insert_one({"online": True})
+            #for doc in users:
+            #   print(doc) 
         print(text['clicked'])
     return render_template('resume.html', title = 'Resume')
 
