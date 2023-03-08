@@ -1,4 +1,7 @@
 flask
+Flask
+pymongo[srv]
+Flask-PyMongo
 opencv-python
 certifi==2020.6.20
 chardet==3.0.4

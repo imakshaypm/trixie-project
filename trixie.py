@@ -1,7 +1,17 @@
 import json
 from time import time
 from flask import Flask, jsonify, render_template, url_for, request, Response, flash
+from flask_pymongo import PyMongo
+import pymongo
+
 app = Flask(__name__)
+
+#client = pymongo.MongoClient('mongodb://localhost:27017')
+#db = client.Trixie
+#coll = db.Users
+
+app.config["MONGO_URI"] = "mongodb://localhost:27017/Trixie"
+mongo = PyMongo(app)
 
 
 '''global capture,rec_frame, data, grey, switch, neg, face, rec, out, audio, reco
@@ -73,6 +83,11 @@ def dashboard_user():
 def resume():
     if request.method == 'POST':
         text = json.loads(request.data) # .forms or .json
+        result = text['clicked']
+        if result:
+               users = mongo.db.Users.insert_one({"online": True})
+               for doc in users:
+                    print(doc) 
         print(text['clicked'])
     return render_template('resume.html', title = 'Resume')
 
