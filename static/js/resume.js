@@ -17,21 +17,23 @@
 
 })();
 
+
+
 $(document).ready(function () {
-    $('#resume-screening').click(function () {
+    $("#upload-file-btn").click(function () {
+        var formData = new FormData();
+        formData.append('files', $('#files')[0].files[0]);
+        console.log(formData)
         $.ajax({
-            url: "/resume",
-            type: "POST",
-            contentType: "application/json; charset=utf-8",
-            data: JSON.stringify({
-                clicked: true
-            }),
+            type: 'POST',
+            url: "/resume_result",
+            data: formData,
+            contentType: false,
+            cache: false,
+            processData: false,
             success: function (data) {
-                console.log(data.value)
+                console.log('Success!');
             },
-            error: function () {
-                console.log('Error')
-            }
         });
     })
 });

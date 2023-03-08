@@ -95,3 +95,231 @@
     font-size: 25px;
     animation: drop-in 1200ms ease 500ms backwards;
 }
+
+.mymodel {
+    background-color: #043665;
+    color: white;
+    border-radius: 20px;
+}
+
+/*To remove white line in modal body*/
+
+.modal-header {
+    border-bottom: 0 none;
+}
+
+.modal-footer {
+    border-top: 0 none;
+}
+
+.ways ul {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    width: 100%;
+    padding: 0px;
+    list-style: none;
+    overflow: hidden;
+}
+
+.ways li {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    cursor: pointer;
+    color: white;
+    text-transform: uppercase;
+    border-radius: 30px;
+    width: 30%;
+}
+
+.ways li:first-child {
+    border-right: 0;
+}
+
+.ways li:last-child {
+    border-left: 0;
+}
+
+.ways li.active {
+    border: 2px solid #1AA1E5;
+    color: #66676C;
+}
+
+.ways li.active::before {
+    content: '\f00c';
+    color: #1AA1E5;
+}
+
+.ways li:not(.active) {
+    padding: 16px 0;
+}
+
+section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+select {
+    align-self: center;
+    width: 80%;
+    height: 50px;
+    border-radius: 10px;
+    font-family: Poppins;
+    outline: none;
+}
+
+.select::-ms-expand {
+    display: none;
+}
+
+.select::after {
+    content: "";
+    width: 0.8em;
+    height: 0.5em;
+    background-color: var(--select-arrow);
+    clip-path: polygon(100% 0%, 0 0%, 50% 100%);
+}
+
+option {
+    margin: 50px;
+    background: pink;
+}
+
+.select-option {
+    background-color: #F5F7FA;
+    color: #999;
+    font-size: 15px;
+    position: relative;
+    cursor: pointer;
+}
+
+.select-option::before {
+    content: '\f107';
+    position: absolute;
+    right: 0;
+    top: 0;
+    margin-top: 9px;
+    margin-left: 30px;
+    font-size: 20px;
+}
+
+.select-option div:not(.option) {
+    padding: 10px 10px;
+    border: 1px solid #ddd;
+}
+
+.select-option div:last-child,
+.select-option .head {
+    border-bottom: 1px solid #ddd;
+}
+
+.select-option .option {
+    display: none;
+}
+
+.select-option .option div {
+    text-transform: capitalize;
+}
+
+.select-option.active .option {
+    display: block;
+    position: absolute;
+    width: 100%;
+    background-color: #F5F7FA;
+    box-sizing: border-box;
+    padding: 0;
+    margin-top: -1px;
+    z-index: 2;
+    border: none;
+    outline: none;
+}
+
+.select-option .option div {
+    border-bottom: 0;
+}
+
+.file-selector {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 30px;
+}
+
+.file-input {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #000;
+}
+
+.images {
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 20px;
+}
+
+.images .img,
+.images .pic {
+    flex-basis: 31%;
+    margin-bottom: 10px;
+    border-radius: 4px;
+}
+
+.images .img {
+    width: 112px;
+    height: 93px;
+    background-size: cover;
+    margin-right: 10px;
+    background-position: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+}
+
+.images .img:nth-child(3n) {
+    margin-right: 0;
+}
+
+.images .img span {
+    display: none;
+    text-transform: capitalize;
+    z-index: 2;
+}
+
+.images .img::after {
+    content: '';
+    width: 100%;
+    height: 100%;
+    transition: opacity .1s ease-in;
+    border-radius: 4px;
+    opacity: 0;
+    position: absolute;
+}
+
+.images .img:hover::after {
+    display: block;
+    background-color: #000;
+    opacity: .5;
+}
+
+.images .img:hover span {
+    display: block;
+    color: #fff;
+}
+
+.images .pic {
+    background-color: #F5F7FA;
+    align-self: center;
+    text-align: center;
+    padding: 40px 0;
+    text-transform: uppercase;
+    color: #848EA1;
+    font-size: 12px;
+    cursor: pointer;
+}

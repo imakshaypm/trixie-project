@@ -3,7 +3,40 @@
 <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/resume.css') }}">
 {% endblock %}
 {% block content %}
+
 <div class="wrapper">
+    <!-- Modal -->
+    <div id="myModal" class="modal fade " role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content mymodel">
+                <div class="modal-header">
+                    <h4 style="color: white; text-align: center; margin: 0 auto;" class="modal-title center">Select your CV and category</h4>
+                </div>
+                <div class="modal-body">
+                    <section>
+                        <select id="category">
+                            <option value="summmer">Python Developer</option>
+                            <option value="winter">Php Developer</option>
+                            <option value="working">Web Developer</option>
+                            <option value="road">Fullstack Developer</option>
+                        </select>
+                    </section>
+                    <div class="file-selector">
+                        <form id="upload-file" method="post" enctype="multipart/form-data">
+                            <fieldset>
+                                <input id="files" class="file-input" type="file" name="files">
+                            </fieldset>
+                            <fieldset>
+                                <button id="upload-file-btn" type="button">Upload</button>
+                            </fieldset>
+                        </form>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </div>
     <div id="parallax" class="resume-pic-and-text">
         <div class="resume-text-and-button">
             <p class="heading-text">Find the job that is perfect for <font color="#FF8117">YOU</font></p>
@@ -12,7 +45,7 @@
                     look for.</p>
             </div>
             <div class="overflow-hidden-1">
-                <button id="resume-screening" class="resume-button">Resume Screeing</button>
+                <button id="resume-screening" class="resume-button" data-toggle="modal" data-target="#myModal">Resume Screeing</button>
             </div>
         </div>
         <div class="section-2">

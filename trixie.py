@@ -83,14 +83,22 @@ def dashboard_user():
 def resume():
     if request.method == 'POST':
         text = json.loads(request.data) # .forms or .json
-        result = text['clicked']
+        print()
         if result:
                users = mongo.db.Users.insert_one({"online": True})
-               for doc in users:
-                    print(doc) 
+               #for doc in users:
+                #    print(doc) 
         print(text['clicked'])
     return render_template('resume.html', title = 'Resume')
 
+#Works Very Well Dont Touch It!!!!!!
+@app.route("/resume_result", methods=['GET', 'POST'])
+def resume_result():
+    isthisFile = request.files.get('files')
+    print(isthisFile)
+    print(isthisFile.filename)
+    isthisFile.save('./upload/' + isthisFile.filename)
+    return render_template('resume.html', title = 'Resume')
 
 if __name__ == '__main__':
     app.run(debug=True)
