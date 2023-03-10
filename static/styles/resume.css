@@ -102,6 +102,14 @@
     border-radius: 20px;
 }
 
+.modal-body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-family: Poppins;
+}
+
 /*To remove white line in modal body*/
 
 .modal-header {
@@ -160,6 +168,7 @@ section {
     display: flex;
     justify-content: center;
     align-items: center;
+    width: 95%;
 }
 
 select {
@@ -169,6 +178,7 @@ select {
     border-radius: 10px;
     font-family: Poppins;
     outline: none;
+    margin: 10px;
 }
 
 .select::-ms-expand {
@@ -185,7 +195,6 @@ select {
 
 option {
     margin: 50px;
-    background: pink;
 }
 
 .select-option {
@@ -243,16 +252,66 @@ option {
 
 .file-selector {
     display: flex;
-    justify-content: center;
+    flex-direction: column;
     align-items: center;
-    margin-top: 30px;
 }
 
-.file-input {
+.file-upload {
+    border: none;
+    background: #FFD262;
+    outline: none !important;
+    padding: 15px;
+    padding-left: 30px;
+    padding-right: 30px;
+    border-radius: 30px;
+    text-align: center;
+}
+
+input[type="file"] {
+    display: none;
+}
+
+label {
+    display: block;
+    position: relative;
+    background-color: #043665;
+    color: #ffffff;
+    font-size: 1.12em;
+    font-weight: 500;
+    text-align: center;
+    width: 18.75em;
+    padding: 1.12em 0;
+    margin: auto;
+    border-radius: 0.31em;
+    cursor: pointer;
+}
+
+ul {
+    list-style-type: none;
+    list-style: none;
+}
+
+.container {
+    background-color: #ffffff;
+    width: 90%;
+    max-width: 34.37em;
+    position: relative;
+    margin: 3em;
+    padding: 2.25em 1.25em;
+    border-radius: 0.43em;
+    box-shadow: 0 1.25em 2.18em rgb(1, 28, 71, 0.3);
+}
+
+.container li {
+    font-weight: 500;
+    background-color: #FFD262;
+    color: black;
+    margin-left: -40px;
+    padding: 1em 1em;
+    border-radius: 0.3em;
     display: flex;
+    justify-content: space-between;
     align-items: center;
-    justify-content: center;
-    background: #000;
 }
 
 .images {

@@ -11,26 +11,40 @@
             <!-- Modal content-->
             <div class="modal-content mymodel">
                 <div class="modal-header">
-                    <h4 style="color: white; text-align: center; margin: 0 auto;" class="modal-title center">Select your CV and category</h4>
+                    <h4 style="color: white; text-align: center; margin: 0 auto;" class="modal-title center">Choose Your CV And Category</h4>
                 </div>
                 <div class="modal-body">
-                    <section>
-                        <select id="category">
-                            <option value="summmer">Python Developer</option>
-                            <option value="winter">Php Developer</option>
-                            <option value="working">Web Developer</option>
-                            <option value="road">Fullstack Developer</option>
-                        </select>
-                    </section>
                     <div class="file-selector">
-                        <form id="upload-file" method="post" enctype="multipart/form-data">
-                            <fieldset>
-                                <input id="files" class="file-input" type="file" name="files">
-                            </fieldset>
-                            <fieldset>
-                                <button id="upload-file-btn" type="button">Upload</button>
-                            </fieldset>
-                        </form>
+                        <div class="container">
+                            <form action="/resume_result" id="upload-file" method="post" enctype="multipart/form-data">
+                                <fieldset>
+                                    <section>
+                                        <select name="company">
+                                            <option value="google">Google</option>
+                                            <option value="meta">Meta</option>
+                                            <option value="adobe">Adobe</option>
+                                            <option value="uber">Uber</option>
+                                        </select>
+                                        <select name="job">
+                                            <option value="python-developer">Python Developer</option>
+                                            <option value="php-developer">Php Developer</option>
+                                            <option value="web-developer">Web Developer</option>
+                                            <option value="fullstack-developer">Fullstack Developer</option>
+                                        </select>
+                                    </section>
+                                </fieldset>
+                                <fieldset>
+                                    <label for="files">
+                                        <i class="bi bi-cloud-arrow-up-fill"></i>
+                                        &nbsp; Choose Files To Upload
+                                    </label>
+                                    <input id="files" type="file" name="file">
+                                    <input class="file-upload" type="submit" value="Upload">
+                                </fieldset>
+                            </form>
+                            <div id="num-of-files">No Files Choosen</div>
+                            <ul id="files-list"></ul>
+                        </div>
                     </div>
                 </div>
                 

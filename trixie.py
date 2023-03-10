@@ -1,8 +1,9 @@
 import json
 from time import time
-from flask import Flask, jsonify, render_template, url_for, request, Response, flash
+from flask import Flask, jsonify, render_template, url_for, request, Response, flash, redirect
 from flask_pymongo import PyMongo
 import pymongo
+from resume_screening import resumes
 
 app = Flask(__name__)
 
@@ -94,11 +95,14 @@ def resume():
 #Works Very Well Dont Touch It!!!!!!
 @app.route("/resume_result", methods=['GET', 'POST'])
 def resume_result():
-    isthisFile = request.files.get('files')
-    print(isthisFile)
-    print(isthisFile.filename)
-    isthisFile.save('./upload/' + isthisFile.filename)
-    return render_template('resume.html', title = 'Resume')
+    result = 0
+    if request.method == 'POST': #we cannot redirect inside a post method
+        isthisFile = request.files['file']
+        job = request.form.get('job')
+        company = request.form.get('company')
+        print(job, company)
+        result = resumes(isthisFile, 'upload/python-job-description.docx')
+        return render_template('resume_result.html', title = 'Resume Result', final=result)
 
 if __name__ == '__main__':
     app.run(debug=True)

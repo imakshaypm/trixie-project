@@ -1,5 +1,6 @@
 flask
 Flask
+git+https://github.com/LIAAD/yake
 pymongo[srv]
 Flask-PyMongo
 opencv-python
