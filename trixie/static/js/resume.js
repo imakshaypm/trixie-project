@@ -21,23 +21,14 @@
 
 $(document).ready(function () {
     $("#upload-file-btn").click(function () {
-        var formData = new FormData();
-        formData.append('files', $('#files')[0].files[0]);
-        console.log(formData)
-        $.ajax({
-            type: 'POST',
-            url: "/resume_result",
-            data: formData,
-            contentType: false,
-            cache: false,
-            processData: false,
-            success: function (data) {
-                if(data.redirect) {
-                    console.log('Success!');
-                    window.location.href = data.redirect;
-                }
-            },
-        });
+        var fileName = document.getElementById("files").value;
+        var idxDot = fileName.lastIndexOf(".") + 1;
+        var extFile = fileName.substr(idxDot, fileName.length).toLowerCase();
+        if (extFile == "doc" || extFile == "docx") {
+            //TO DO
+        } else {
+            alert("Only doc/docx and png files are allowed!");
+        }
     })
 });
 
@@ -60,3 +51,11 @@ fileInput.addEventListener("change", () => {
         fileList.appendChild(listItem);
     }
 });
+$(function () {
+    // setTimeout() function will be fired after page is loaded
+    // it will wait for 5 sec. and then will fire
+    // $(".message_flash").hide() function
+    setTimeout(function () {
+        $(".message_flash").hide('blind', {}, 500)
+    }, 5000);
+})   

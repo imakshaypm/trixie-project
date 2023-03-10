@@ -11,40 +11,36 @@
             <!-- Modal content-->
             <div class="modal-content mymodel">
                 <div class="modal-header">
-                    <h4 style="color: white; text-align: center; margin: 0 auto;" class="modal-title center">Choose Your CV And Category</h4>
+                    <h4 style="color: white; text-align: center; margin: 0 auto; margin-top: 20px;" class="modal-title">Choose Your CV And Category</h4>
                 </div>
                 <div class="modal-body">
-                    <div class="file-selector">
-                        <div class="container">
-                            <form action="/resume_result" id="upload-file" method="post" enctype="multipart/form-data">
-                                <fieldset>
-                                    <section>
-                                        <select name="company">
-                                            <option value="google">Google</option>
-                                            <option value="meta">Meta</option>
-                                            <option value="adobe">Adobe</option>
-                                            <option value="uber">Uber</option>
-                                        </select>
-                                        <select name="job">
-                                            <option value="python-developer">Python Developer</option>
-                                            <option value="php-developer">Php Developer</option>
-                                            <option value="web-developer">Web Developer</option>
-                                            <option value="fullstack-developer">Fullstack Developer</option>
-                                        </select>
-                                    </section>
-                                </fieldset>
-                                <fieldset>
-                                    <label for="files">
-                                        <i class="bi bi-cloud-arrow-up-fill"></i>
-                                        &nbsp; Choose Files To Upload
-                                    </label>
-                                    <input id="files" type="file" name="file">
-                                    <input class="file-upload" type="submit" value="Upload">
-                                </fieldset>
-                            </form>
+                    <div class="container">
+                        <form action="/resume" id="upload-file" method="post" enctype="multipart/form-data">
+                            <section>
+                                <select name="company" required="">
+                                    <option value="" disabled="" selected="" class="placeholder">Select a Company</option>
+                                    <option value="google">Google</option>
+                                    <option value="meta">Meta</option>
+                                    <option value="adobe">Adobe</option>
+                                    <option value="uber">Uber</option>
+                                </select>
+                                <select name="job" required="">
+                                    <option value="" disabled="" selected="" class="placeholder">Select a Job</option>
+                                    <option value="python-developer">Python Developer</option>
+                                    <option value="php-developer">Php Developer</option>
+                                    <option value="web-developer">Web Developer</option>
+                                    <option value="fullstack-developer">Fullstack Developer</option>
+                                </select>
+                            </section>
+                            <label for="files">
+                                <i style="font-size: 22px; text-align: center;" class="bi bi-cloud-arrow-up-fill"></i>
+                                &nbsp; Choose Files To Upload
+                            </label>
+                            <input id="files" type="file" name="file" accept=".doc,.docx" required="">
                             <div id="num-of-files">No Files Choosen</div>
                             <ul id="files-list"></ul>
-                        </div>
+                            <input class="file-upload" type="submit" value="Upload">
+                        </form>
                     </div>
                 </div>
                 

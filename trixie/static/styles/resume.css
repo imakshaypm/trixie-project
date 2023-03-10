@@ -164,11 +164,18 @@
     padding: 16px 0;
 }
 
+form {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    flex-grow: 1;
+}
+
 section {
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 95%;
+    margin-bottom: 20px;
 }
 
 select {
@@ -179,6 +186,10 @@ select {
     font-family: Poppins;
     outline: none;
     margin: 10px;
+}
+
+.placeholder {
+    color: #888;
 }
 
 .select::-ms-expand {
@@ -265,6 +276,8 @@ option {
     padding-right: 30px;
     border-radius: 30px;
     text-align: center;
+    margin-top: 30px;
+    font-weight: bold;
 }
 
 input[type="file"] {
@@ -297,6 +310,7 @@ ul {
     max-width: 34.37em;
     position: relative;
     margin: 3em;
+    margin-top: 10px;
     padding: 2.25em 1.25em;
     border-radius: 0.43em;
     box-shadow: 0 1.25em 2.18em rgb(1, 28, 71, 0.3);
@@ -312,73 +326,4 @@ ul {
     display: flex;
     justify-content: space-between;
     align-items: center;
-}
-
-.images {
-    display: flex;
-    flex-wrap: wrap;
-    margin-top: 20px;
-}
-
-.images .img,
-.images .pic {
-    flex-basis: 31%;
-    margin-bottom: 10px;
-    border-radius: 4px;
-}
-
-.images .img {
-    width: 112px;
-    height: 93px;
-    background-size: cover;
-    margin-right: 10px;
-    background-position: center;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    position: relative;
-    overflow: hidden;
-}
-
-.images .img:nth-child(3n) {
-    margin-right: 0;
-}
-
-.images .img span {
-    display: none;
-    text-transform: capitalize;
-    z-index: 2;
-}
-
-.images .img::after {
-    content: '';
-    width: 100%;
-    height: 100%;
-    transition: opacity .1s ease-in;
-    border-radius: 4px;
-    opacity: 0;
-    position: absolute;
-}
-
-.images .img:hover::after {
-    display: block;
-    background-color: #000;
-    opacity: .5;
-}
-
-.images .img:hover span {
-    display: block;
-    color: #fff;
-}
-
-.images .pic {
-    background-color: #F5F7FA;
-    align-self: center;
-    text-align: center;
-    padding: 40px 0;
-    text-transform: uppercase;
-    color: #848EA1;
-    font-size: 12px;
-    cursor: pointer;
 }
