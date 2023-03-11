@@ -67,5 +67,8 @@ def resume():
 @app.route("/resume_result", methods=['GET', 'POST'])
 def resume_result():
     return render_template('resume_result.html', title = 'Resume Result')
-        
-            
+
+
+@app.route("/signup_category", methods=['GET', 'POST'])
+def signup_category():
+    return render_template('signup_category.html', title = 'New User')
