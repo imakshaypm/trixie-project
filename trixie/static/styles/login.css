@@ -3,17 +3,20 @@
     flex-direction: row;
     justify-content: center;
     height: 100%;
-    z-index: -99;
     background: white;
 }
 
 .login-right-side {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-content: center;
+    font-family: Poppins;
     padding-right: 30px;
-    align-self: center;
     width: 50%;
     max-width: 100%;
     padding-bottom: 10%;
-    margin-right: 100px;
+    margin-right: 80px;
 }
 
 .login-left-side {
@@ -76,4 +79,49 @@
     -o-transform: rotate(180deg);
     -ms-transform: rotate(180deg);
     transform: rotate(180deg);
+}
+
+.text-below-password {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    font-size: 15px;
+    margin-bottom: 20px;
+}
+
+.button-div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+.button-div .btn {
+    font-family: PoppinsBold;
+    background: #043665;
+    padding: 10px;
+    padding-left: 30px;
+    padding-right: 30px;
+    width: 100%;
+    box-shadow: 0px 121.283px 97.0262px rgba(4, 54, 101, 0.27), 0px 50.6691px 40.5352px rgba(4, 54, 101, 0.194091), 0px 27.0901px 21.6721px rgba(4, 54, 101, 0.160949), 0px 15.1865px 12.1492px rgba(4, 54, 101, 0.135), 0px 8.06543px 6.45234px rgba(4, 54, 101, 0.109051), 0px 3.35621px 2.68496px rgba(4, 54, 101, 0.0759093);
+    border-radius: 15px;
+}
+
+.alternative-button {
+    border: none;
+    outline: none !important;
+    font-size: 30px;
+    color: #043665;
+    margin: 20px;
+    background: transparent;
+}
+
+.form-control {
+    border-radius: 15px;
+}
+
+.form-control:focus {
+    border-color: #FF8117;
+    box-shadow: 0 1px 1px #FFD262, 0 0 8px #FF8117
 }

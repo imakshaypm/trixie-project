@@ -21,24 +21,55 @@
     </div>
     <div class="login-right-side">
         <p style="font-family: PoppinsBold; font-size: 50px; text-align: center; color: #043665;">LOGIN</p>
-        <form>
-            <div class="form-group">
-                <label for="exampleInputEmail1">Email address</label>
-                <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
-                    placeholder="Enter email">
-                <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone
-                    else.</small>
-            </div>
-            <div class="form-group">
-                <label for="exampleInputPassword1">Password</label>
-                <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
-            </div>
-            <div class="form-check">
-                <input type="checkbox" class="form-check-input" id="exampleCheck1">
-                <label class="form-check-label" for="exampleCheck1">Check me out</label>
-            </div>
-            <button type="submit" class="btn btn-primary">Submit</button>
-        </form>
+        <div>
+            <form>
+                <div class="form-floating mb-4">
+                    <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com">
+                    <label for="floatingInput">Email address</label>
+                </div>
+                <div class="form-floating mb-4">
+                    <input type="password" class="form-control" id="floatingPassword" placeholder="Password">
+                    <label for="floatingPassword">Password</label>
+                </div>
+                <!-- 2 column grid layout for inline styling -->
+                <div class="text-below-password">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="" id="form2Example31" checked />
+                        <label class="form-check-label" for="form2Example31"> Remember me </label>
+                    </div>
+                    <div>
+                        <!-- Simple link -->
+                        <a href="#!">Forgot password?</a>
+                    </div>
+                </div>
+            
+                <!-- Submit button -->
+                <div class="button-div">
+                    <button type="button" class="btn btn-primary btn-block mb-4">Sign in</button>
+                </div>
+            
+                <!-- Register buttons -->
+                <div class="text-center">
+                    <p>Not a member? <a href="#!">Register</a></p>
+                    <p>or sign up with:</p>
+                    <button type="button" class="alternative-button">
+                        <i class="bi bi-facebook"></i>
+                    </button>
+            
+                    <button type="button" class="alternative-button">
+                        <i class="bi bi-google"></i>
+                    </button>
+            
+                    <button type="button" class="alternative-button">
+                        <i class="bi bi-twitter"></i>
+                    </button>
+            
+                    <button type="button" class="alternative-button">
+                        <i class="bi bi-github"></i>
+                    </button>
+                </div>
+            </form>
+        </div>
     </div>
 </section>
 <script type="text/javascript" src="static/js/login.js"></script>
