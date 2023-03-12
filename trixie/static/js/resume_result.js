@@ -32,7 +32,7 @@ function create(i) {
 function drop(x) {
     $('.confetti-' + x).animate({
         top: "100%",
-        left: "+=" + Math.random() * 15 + "%"
+        left: "+=" + Math.random() * 20 + "%"
     }, Math.random() * 2000 + 2000, function () {
         reset(x);
     });

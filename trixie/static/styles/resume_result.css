@@ -1,6 +1,3 @@
-
-
-
 .top {
     width: 50%;
 }
@@ -14,7 +11,8 @@
 }
 
 .sub-heading {
-    font-size: 40px;
+    font-family: PoppinsLight;
+    font-size: 30px;
 }
 
 .circular-chart.orange {
@@ -66,7 +64,6 @@
 }
 
 .wrapper {
-    position: relative;
     display: flex;
     flex-direction: row;
     justify-content: space-around;
@@ -87,4 +84,32 @@
 
 .blue {
     background-color: #263672;
+}
+
+.middle-text {
+    margin-top: 60px;
+    text-align: center;
+    font-size: 40px;
+    font-weight: bold;
+}
+
+.bottom-section {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin-top: 100px;
+    width: 100%;
+    margin-bottom: 150px;
+}
+
+.sub-text {
+    width: 50%;
+}
+
+.sub-heading-2 {
+    font-family: Poppins;
+    font-size: 30px;
+}
+
+.picture-frame {
 }
