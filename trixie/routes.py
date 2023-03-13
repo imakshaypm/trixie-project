@@ -10,8 +10,12 @@ from werkzeug.utils import secure_filename
 def home():
     return render_template('home.html')
 
-@app.route("/login")
+@app.route("/login", methods=['GET', 'POST'])
 def login():
+    if request.method == "POST":
+        email = request.form.get("email")
+        password = request.form.get("password")
+        print(email, password)
     return render_template('login.html', title = 'Login')
 
 @app.route("/about")
@@ -72,3 +76,11 @@ def resume_result():
 @app.route("/signup_category", methods=['GET', 'POST'])
 def signup_category():
     return render_template('signup_category.html', title = 'New User')
+
+@app.route("/signup_category/company", methods=['GET', 'POST'])
+def company():
+    return render_template('company.html', title = 'New Company')
+
+@app.route("/signup_category/employee", methods=['GET', 'POST'])
+def employee():
+    return render_template('employee.html', title = 'New Employee')

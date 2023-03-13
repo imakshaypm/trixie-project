@@ -47,9 +47,9 @@ body{
 .resume-button {
     font-family: PoppinsBold;
     font-size: 20px;
-    padding: 10px 15px;
+    padding: 15px 30px;
     background: #FFFFFF;
-    border-radius: 25px;
+    border-radius: 40px;
     animation: drop-in 1400ms ease 800ms backwards;
     outline: 0 !important;
     border: 0;
