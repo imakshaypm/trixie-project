@@ -1,6 +1,6 @@
 import json
 import os
-from trixie import app
+from trixie import app, mongo
 from flask import jsonify, render_template, abort, url_for, request, Response, flash, redirect
 from trixie.resume_screening import resumes
 from werkzeug.utils import secure_filename
@@ -46,6 +46,8 @@ def resume():
     if request.method == 'POST':
         isthisFile = request.files['file']
         filename = secure_filename(isthisFile.filename)
+        mongo.save_file(isthisFile.filename, isthisFile)
+        users = mongo.db.Users.insert_one({"resume": isthisFile.filename})
         if filename != '':
             file_ext = os.path.splitext(filename)[1]
         if file_ext not in ['.doc', '.docx']:
