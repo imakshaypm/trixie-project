@@ -4,6 +4,7 @@ navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia 
 $(document).ready(function () {
     $('#start-meeting').click(function () {
         var localstream;
+
         function startVideo() {
             navigator.getUserMedia({
                 video: {} },
@@ -17,6 +18,7 @@ $(document).ready(function () {
                 }
             );
         }
+
         function cameraoff() {
             const stream = video.srcObject;
             if (stream) {
@@ -32,54 +34,56 @@ $(document).ready(function () {
         if (document.getElementById("start-meeting").value == "Start Meeting") {
             document.getElementById("start-meeting").value = "Stop Meeting"
             document.getElementById("start-meeting").style.background = "#F1414F";
+            startVideo()
             //Fetching Video frame from HTML
             const video = document.getElementById("video");
+            console.log(video)
             /****Loading the model ****/
-            Promise.all([
-                faceapi.nets.tinyFaceDetector.loadFromUri("/static/models/"),
-                faceapi.nets.faceLandmark68Net.loadFromUri("/static/models/"),
-                faceapi.nets.faceRecognitionNet.loadFromUri("/static/models/"),
-                faceapi.nets.faceExpressionNet.loadFromUri("/static/models/"),
-                faceapi.nets.ageGenderNet.loadFromUri("/static/models/")
-            ]).then(startVideo);
+            // Promise.all([
+            //     faceapi.nets.tinyFaceDetector.loadFromUri("/static/models/"),
+            //     faceapi.nets.faceLandmark68Net.loadFromUri("/static/models/"),
+            //     faceapi.nets.faceRecognitionNet.loadFromUri("/static/models/"),
+            //     faceapi.nets.faceExpressionNet.loadFromUri("/static/models/"),
+            //     faceapi.nets.ageGenderNet.loadFromUri("/static/models/")
+            // ]).then(startVideo);
 
 
-            /****Event Listeiner for the video****/
-            video.addEventListener("playing", () => {
-                const canvas = faceapi.createCanvasFromMedia(video);
-                let container = document.querySelector(".container");
-                container.append(canvas);
+            // /****Event Listeiner for the video****/
+            // video.addEventListener("playing", () => {
+            //     const canvas = faceapi.createCanvasFromMedia(video);
+            //     let container = document.querySelector(".container");
+            //     container.append(canvas);
 
-                const displaySize = { width: video.width, height: video.height };
-                faceapi.matchDimensions(canvas, displaySize);
+            //     const displaySize = { width: video.width, height: video.height };
+            //     faceapi.matchDimensions(canvas, displaySize);
 
-                setInterval(async () => {
-                    const detections = await faceapi
-                        .detectSingleFace(video, new faceapi.TinyFaceDetectorOptions())
-                        .withFaceLandmarks()
-                        .withFaceExpressions()
-                        .withAgeAndGender();
+            //     setInterval(async () => {
+            //         const detections = await faceapi
+            //             .detectSingleFace(video, new faceapi.TinyFaceDetectorOptions())
+            //             .withFaceLandmarks()
+            //             .withFaceExpressions()
+            //             .withAgeAndGender();
 
-                    const resizedDetections = faceapi.resizeResults(detections, displaySize);
-                    canvas.getContext("2d").clearRect(0, 0, canvas.width, canvas.height);
+            //         const resizedDetections = faceapi.resizeResults(detections, displaySize);
+            //         canvas.getContext("2d").clearRect(0, 0, canvas.width, canvas.height);
 
-                    /****Drawing the detection box and landmarkes on canvas****/
-                    /*faceapi.draw.drawDetections(canvas, resizedDetections);
-                    faceapi.draw.drawFaceLandmarks(canvas, resizedDetections);
+            //         /****Drawing the detection box and landmarkes on canvas****/
+            //         /*faceapi.draw.drawDetections(canvas, resizedDetections);
+            //         faceapi.draw.drawFaceLandmarks(canvas, resizedDetections);
 
-                    /****Setting values to the DOM****/
-                    if (resizedDetections && Object.keys(resizedDetections).length > 0) {
-                        const gender = resizedDetections.gender;
-                        const expressions = resizedDetections.expressions;
-                        const maxValue = Math.max(...Object.values(expressions));
-                        const emotion = Object.keys(expressions).filter(
-                            item => expressions[item] === maxValue
-                        );
-                        document.getElementById("gender").innerText = `Gender - ${gender}`;
-                        document.getElementById("emotion").innerText = `Emotion - ${emotion[0]}`;
-                    }
-                }, 10);
-            });
+            //         /****Setting values to the DOM****/
+            //         if (resizedDetections && Object.keys(resizedDetections).length > 0) {
+            //             const gender = resizedDetections.gender;
+            //             const expressions = resizedDetections.expressions;
+            //             const maxValue = Math.max(...Object.values(expressions));
+            //             const emotion = Object.keys(expressions).filter(
+            //                 item => expressions[item] === maxValue
+            //             );
+            //             document.getElementById("gender").innerText = `Gender - ${gender}`;
+            //             document.getElementById("emotion").innerText = `Emotion - ${emotion[0]}`;
+            //         }
+            //     }, 10);
+            // });
 
         }else{
             document.getElementById("start-meeting").value = "Start Meeting"

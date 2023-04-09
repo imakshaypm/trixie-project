@@ -1,0 +1,114 @@
+.wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.heading {
+    font-family: PoppinsBold;
+    color: white;
+    font-size: 6vw;
+}
+
+.search-input {
+    margin-bottom: 10%;
+    width: 100%;
+}
+
+form {
+    max-width: 60%;
+    margin: 0 auto;
+    position: relative;
+}
+
+.input-group {
+    position: relative;
+    background: #000;
+    border-radius: 30px;
+    overflow: hidden;
+    font-family: Poppins;
+}
+
+label {
+    position: absolute;
+    right: 2%;
+    top: 50%;
+    transform: translatey(-50%);
+    color: rgba(0, 0, 0, 0.08);
+    transition: all 0.2s ease;
+}
+
+input {
+    width: 100%;
+    padding: 8px 30px 8px 12px;
+    border: 2px solid rgba(0, 0, 0, 0.08);
+    outline: none;
+    font-size: 16px;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.06);
+    color: #F27121;
+    font-weight: bold;
+    letter-spacing: 1px;
+    border-radius: 1px;
+    transition: all 0.2s ease;
+    border-radius: 30px;
+}
+
+input:focus {
+    border-color: #F27121;
+}
+
+input:focus+label {
+    transform: scale(1.05) translatey(-50%);
+    color: #F27121;
+}
+
+#apps {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-top: 10px;
+    font-family: PoppinsBold;
+    /* background: #000; */
+}
+
+.app {
+    color: #043665;
+    border-radius: 30px;
+    transition: all 0.2s ease;
+    background: #FFD262;
+    max-width: fit-content;
+    padding-inline: 20px;
+    padding-block: 10px;
+    margin: 1%;
+    box-shadow: 0px 100px 80px rgba(0, 0, 0, 0.11), 0px 41.7776px 33.4221px rgba(0, 0, 0, 0.079074), 0px 22.3363px 17.869px rgba(0, 0, 0, 0.0655718), 0px 12.5216px 10.0172px rgba(0, 0, 0, 0.055), 0px 6.6501px 5.32008px rgba(0, 0, 0, 0.0444282), 0px 2.76726px 2.21381px rgba(0, 0, 0, 0.030926);
+}
+
+.app:hover {
+    background: #FF8117;
+}
+
+.suggestion-list {
+    background-color: #fff;
+    padding: 18px 24px 6px 12px;
+    border-radius: 0 0 6px 6px;
+    position: absolute;
+    width: 100%;
+    margin-top: 0px;
+    border: 2px solid #F27121;
+    border-top: none;
+}
+
+.suggestion-list.hidden {
+    display: none;
+}
+
+.suggestion-list p {
+    margin-bottom: 12px;
+}
+
+.suggestion-list i {
+    margin-right: 12px;
+    color: #F27121;
+}

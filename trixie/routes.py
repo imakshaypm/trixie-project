@@ -1,28 +1,57 @@
 import json
 import os
-from trixie import app, mongo
-from flask import jsonify, render_template, abort, url_for, request, Response, flash, redirect
+from trixie import app, mongo, bcrypt, login_manager
+from flask import jsonify, render_template, abort, url_for, request, Response, flash, redirect, Request
 from trixie.resume_screening import resumes
+from flask_login import login_user, UserMixin, current_user, logout_user, login_required
 from werkzeug.utils import secure_filename
+
+class User(UserMixin):
+    def __init__(self, user_json):
+        self.user_json = user_json
+    # Overriding get_id is required if you don't have the id property
+    # Check the source code for UserMixin for details
+    def get_id(self):
+        object_id = self.user_json.get('_id')
+        return str(object_id)
+
+@login_manager.user_loader
+def load_user(user_id):
+    return User(mongo.db.Company.find_one({'_id': user_id}))
 
 @app.route("/")
 @app.route("/home")
 def home():
     return render_template('home.html')
 
+
 @app.route("/login", methods=['GET', 'POST'])
 def login():
+    if current_user.is_authenticated:
+        return redirect(url_for('dashboard_user'))
+    # form = LoginForm()
     if request.method == "POST":
         email = request.form.get("email")
+        user = mongo.db.Company.find_one({"email": email})
         password = request.form.get("password")
-        print(email, password)
-    return render_template('login.html', title = 'Login')
+        h_password = mongo.db.Company.find_one({"email": email}, {"password": 1, "_id": 0})
+        if user and bcrypt.check_password_hash(h_password["password"], password):
+            print("Success")
+            loginuser = User(user)
+            login_user(loginuser)
+            next_page = request.values.get('next')
+            print(next_page)
+            return redirect(next_page) if next_page else redirect(url_for('home'))
+        else:
+            flash("Invalid username and password", 'danger')
+    return render_template('login.html', title = 'Login') 
 
 @app.route("/about")
 def about():
     return render_template('about.html', title = 'About')
 
 @app.route("/interview", methods=['GET', 'POST'])
+@login_required
 def interview():
     if request.is_json: #You have to add contentType application/json in ajax post request to get true
         if request.method == 'GET':
@@ -81,8 +110,50 @@ def signup_category():
 
 @app.route("/signup_category/company", methods=['GET', 'POST'])
 def company():
+    if current_user.is_authenticated:
+        return redirect(url_for('dashboard_user'))
+    if request.method == "POST":
+        comapny_name = request.form.get("comapny-name")
+        comapny_email = request.form.get("comapny-email")
+        gst_number = request.form.get("gst-number")
+        password = request.form.get("password")
+        h_password = bcrypt.generate_password_hash(password).decode('utf-8')
+        if not mongo.db.Company.find_one({"gst_number": gst_number}):
+            mongo.db.Company.insert_one({"comapny_name": comapny_name,
+                                                     "email" : comapny_email,
+                                                      "gst_number" : gst_number,
+                                                       "password" :h_password})
+            return redirect(url_for('login'))
+        else:
+            flash("Company already exist", 'danger')
+        #print(email, password)
     return render_template('company.html', title = 'New Company')
 
 @app.route("/signup_category/employee", methods=['GET', 'POST'])
 def employee():
+    if current_user.is_authenticated:
+        return redirect(url_for('dashboard_user'))
+    if request.method == "POST":
+        employee_name = request.form.get("employee-name")
+        username = request.form.get("username")
+        email = request.form.get("email")
+        password = request.form.get("password")
+        h_password = bcrypt.generate_password_hash(password).decode('utf-8')
+        if not mongo.db.Users.find_one({"username": username}):
+            mongo.db.Users.insert_one({"employee_name": employee_name,
+                                        "username" : username,
+                                        "email" : email,
+                                        "password" :h_password})
+            return redirect(url_for('login'))
+        else:
+            flash("Username already exists", 'danger')
     return render_template('employee.html', title = 'New Employee')
+
+@app.route("/search", methods=['GET', 'POST'])
+def search():
+    return render_template('search.html', title = 'Search')
+
+@app.route("/logout")
+def logout():
+    logout_user()
+    return redirect(url_for('home'))

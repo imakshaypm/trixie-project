@@ -44,6 +44,20 @@ h6 {
     src: url('../fonts/Poppins/Poppins-Light.ttf');
 }
 
+.r-profile {
+    overflow: hidden;
+    border-radius: 5%;
+}
+
+.alert-container {
+    position: relative;
+}
+
+.alert {
+    position: absolute;
+    z-index: 100;
+}
+
 a {
     outline: none;
 }
