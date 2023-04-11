@@ -12,23 +12,25 @@
             <div class="top-text-login">
                 <p style="font-family: PoppinsLight; font-size: 3vw;">Nice to see you again</p>
                 <p style="font-family: PoppinsBold; font-size: 3vw;">Welcome Back</p>
-                <img src="static/photos/login-illu.svg" style="max-width: 100%;">
+                <img src="../static/photos/login-illu.svg" style="max-width: 100%;">
             </div>
             <div class="papper-rip">
-                <img src="static/photos/paper-rip.png" style="max-width: 100%;">
+                <img src="../static/photos/paper-rip.png" style="max-width: 100%;">
             </div>
         </div>
     </div>
     <div class="login-right-side">
         <p style="font-family: PoppinsBold; font-size: 50px; text-align: center; color: #043665;">LOGIN</p>
         <div>
-            <form method="post" action="/login">
+            <form method="post" action="/login_category/login_u">
                 <div class="form-floating mb-4">
-                    <input name="email" type="email" class="form-control" id="floatingInput" placeholder="name@example.com">
+                    <input name="email" type="email" class="form-control" id="floatingInput"
+                        placeholder="name@example.com">
                     <label for="floatingInput">Email address</label>
                 </div>
                 <div class="form-floating mb-4">
-                    <input name="password" type="password" class="form-control" id="floatingPassword" placeholder="Password">
+                    <input name="password" type="password" class="form-control" id="floatingPassword"
+                        placeholder="Password">
                     <label for="floatingPassword">Password</label>
                 </div>
                 <!-- 2 column grid layout for inline styling -->
@@ -42,28 +44,28 @@
                         <a href="#!">Forgot password?</a>
                     </div>
                 </div>
-            
+
                 <!-- Submit button -->
                 <div class="button-div">
                     <button type="submit" class="btn btn-primary btn-block mb-4">Sign in</button>
                 </div>
-            
+
                 <!-- Register buttons -->
                 <div class="text-center">
-                    <p>Not a member? <a href="/signup_category">Register</a></p>
+                    <p>Not a member? <a href="/signup/employee">Register</a></p>
                     <p>or sign up with:</p>
                     <button type="button" class="alternative-button">
                         <i class="bi bi-facebook"></i>
                     </button>
-            
+
                     <button type="button" class="alternative-button">
                         <i class="bi bi-google"></i>
                     </button>
-            
+
                     <button type="button" class="alternative-button">
                         <i class="bi bi-twitter"></i>
                     </button>
-            
+
                     <button type="button" class="alternative-button">
                         <i class="bi bi-github"></i>
                     </button>
@@ -72,5 +74,5 @@
         </div>
     </div>
 </section>
-<script type="text/javascript" src="static/js/login.js"></script>
+<script type="text/javascript" src="../static/js/login.js"></script>
 {% endblock content %}

@@ -1,30 +1,30 @@
 {% extends "layout.html" %}
 {% block styles %}
-<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/signup_category.css') }}">
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/login_category.css') }}">
 {% endblock %}
 {% block content %}
 <button class="cross-icon" onclick="history.back()">
     <i id="mic-icon" class="bi bi-arrow-left" style="font-size: 40px; color: #FF8117;"></i>
 </button>
 <div id="parallax" class="container">
-    <h1 style="text-align: center; color: white; font-weight: bold;">New User?</h1>
+    <h1 style="text-align: center; color: white; font-weight: bold;">Who Are You ?</h1>
     <div class="signup-container">
 
-        <a href="/signup_category/company" class="fill-div">
+        <a href="/login_category/login_c" class="fill-div">
             <div class="company">
                 <img class="company-illu" src="../static/photos/company-illu.png">
                 <h4>Company</h4>
             </div>
         </a>
-        
-        <a href="/signup_category/employee" class="fill-div">
+
+        <a href="/login_category/login_u" class="fill-div">
             <div class="employee">
                 <img class="employee-illu" src="../static/photos/employee-illu.png">
                 <h4>Employee</h4>
             </div>
         </a>
-        
+
     </div>
 </div>
-<script type="text/javascript" src="static/js/signup_category.js"></script>
+<script type="text/javascript" src="../static/js/login_category.js"></script>
 {% endblock content %}

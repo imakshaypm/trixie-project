@@ -24,27 +24,56 @@ def load_user(user_id):
 def home():
     return render_template('home.html')
 
+@app.route("/login_category", methods=['GET', 'POST'])
+def login_category():
+    return render_template('login_category.html', title = 'Login')
 
-@app.route("/login", methods=['GET', 'POST'])
-def login():
+@app.route("/login_category/login_u", methods=['GET', 'POST'])
+def login_u():
+    print("Inside login_u")
     if current_user.is_authenticated:
+        print("Inside current_user")
         return redirect(url_for('dashboard_user'))
     # form = LoginForm()
     if request.method == "POST":
+        print("Inside POST")
         email = request.form.get("email")
-        user = mongo.db.Company.find_one({"email": email})
+        user = mongo.db.Users.find_one({"email": email})
         password = request.form.get("password")
-        h_password = mongo.db.Company.find_one({"email": email}, {"password": 1, "_id": 0})
+        h_password = mongo.db.Users.find_one({"email": email}, {"password": 1, "_id": 0})
         if user and bcrypt.check_password_hash(h_password["password"], password):
             print("Success")
             loginuser = User(user)
             login_user(loginuser)
             next_page = request.values.get('next')
             print(next_page)
+            print("Inside Users")
             return redirect(next_page) if next_page else redirect(url_for('home'))
         else:
             flash("Invalid username and password", 'danger')
-    return render_template('login.html', title = 'Login') 
+    return render_template('login_u.html', title = 'Login User')
+
+@app.route("/login_category/login_c", methods=['GET', 'POST'])
+def login_c():
+    if current_user.is_authenticated:
+        return redirect(url_for('dashboard_company'))
+    # form = LoginForm()
+    if request.method == "POST":
+        email = request.form.get("email")
+        company = mongo.db.Company.find_one({"email": email})
+        password = request.form.get("password")
+        h_password = mongo.db.Company.find_one({"email": email}, {"password": 1, "_id": 0})
+        if company and bcrypt.check_password_hash(h_password["password"], password):
+            print("Success")
+            loginuser = User(company)
+            login_user(loginuser)
+            next_page = request.values.get('next')
+            print(next_page)
+            print("Inside Company")
+            return redirect(next_page) if next_page else redirect(url_for('home'))
+        else:
+            flash("Invalid username and password", 'danger')
+    return render_template('login_c.html', title = 'Login Company')
 
 @app.route("/about")
 def about():
@@ -104,11 +133,7 @@ def resume_result():
     return render_template('resume_result.html', title = 'Resume Result')
 
 
-@app.route("/signup_category", methods=['GET', 'POST'])
-def signup_category():
-    return render_template('signup_category.html', title = 'New User')
-
-@app.route("/signup_category/company", methods=['GET', 'POST'])
+@app.route("/signup/company", methods=['GET', 'POST'])
 def company():
     if current_user.is_authenticated:
         return redirect(url_for('dashboard_user'))
@@ -129,7 +154,7 @@ def company():
         #print(email, password)
     return render_template('company.html', title = 'New Company')
 
-@app.route("/signup_category/employee", methods=['GET', 'POST'])
+@app.route("/signup/employee", methods=['GET', 'POST'])
 def employee():
     if current_user.is_authenticated:
         return redirect(url_for('dashboard_user'))

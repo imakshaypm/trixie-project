@@ -1,0 +1,78 @@
+{% extends "layout.html" %}
+{% block styles %}
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/login.css') }}">
+{% endblock %}
+{% block content %}
+<button class="cross-icon" onclick="history.back()">
+    <i id="mic-icon" class="bi bi-x-lg" style="font-size: 40px; color: #FF8117;"></i>
+</button>
+<section class="whole-login">
+    <div class="login-left-side">
+        <div class="login-illu">
+            <div class="top-text-login">
+                <p style="font-family: PoppinsLight; font-size: 3vw;">Nice to see you again</p>
+                <p style="font-family: PoppinsBold; font-size: 3vw;">Welcome Back</p>
+                <img src="../static/photos/login-illu.svg" style="max-width: 100%;">
+            </div>
+            <div class="papper-rip">
+                <img src="../static/photos/paper-rip.png" style="max-width: 100%;">
+            </div>
+        </div>
+    </div>
+    <div class="login-right-side">
+        <p style="font-family: PoppinsBold; font-size: 50px; text-align: center; color: #043665;">LOGIN</p>
+        <div>
+            <form method="post" action="/login_category/login_c">
+                <div class="form-floating mb-4">
+                    <input name="email" type="email" class="form-control" id="floatingInput"
+                        placeholder="name@example.com">
+                    <label for="floatingInput">Email address</label>
+                </div>
+                <div class="form-floating mb-4">
+                    <input name="password" type="password" class="form-control" id="floatingPassword"
+                        placeholder="Password">
+                    <label for="floatingPassword">Password</label>
+                </div>
+                <!-- 2 column grid layout for inline styling -->
+                <div class="text-below-password">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="" id="form2Example31" checked />
+                        <label class="form-check-label" for="form2Example31"> Remember me </label>
+                    </div>
+                    <div>
+                        <!-- Simple link -->
+                        <a href="#!">Forgot password?</a>
+                    </div>
+                </div>
+
+                <!-- Submit button -->
+                <div class="button-div">
+                    <button type="submit" class="btn btn-primary btn-block mb-4">Sign in</button>
+                </div>
+
+                <!-- Register buttons -->
+                <div class="text-center">
+                    <p>Not a member? <a href="/signup/company">Register</a></p>
+                    <p>or sign up with:</p>
+                    <button type="button" class="alternative-button">
+                        <i class="bi bi-facebook"></i>
+                    </button>
+
+                    <button type="button" class="alternative-button">
+                        <i class="bi bi-google"></i>
+                    </button>
+
+                    <button type="button" class="alternative-button">
+                        <i class="bi bi-twitter"></i>
+                    </button>
+
+                    <button type="button" class="alternative-button">
+                        <i class="bi bi-github"></i>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+<script type="text/javascript" src="../static/js/login.js"></script>
+{% endblock content %}
