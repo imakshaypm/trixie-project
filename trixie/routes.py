@@ -1,23 +1,20 @@
 import json
 import os
 from trixie import app, mongo, bcrypt, login_manager
-from flask import jsonify, render_template, abort, url_for, request, Response, flash, redirect, Request
+from flask import jsonify, render_template, abort, url_for, request, flash, redirect
 from trixie.resume_screening import resumes
 from flask_login import login_user, UserMixin, current_user, logout_user, login_required
 from werkzeug.utils import secure_filename
+from trixie.froms import User
 
-class User(UserMixin):
-    def __init__(self, user_json):
-        self.user_json = user_json
-    # Overriding get_id is required if you don't have the id property
-    # Check the source code for UserMixin for details
-    def get_id(self):
-        object_id = self.user_json.get('_id')
-        return str(object_id)
 
 @login_manager.user_loader
-def load_user(user_id):
-    return User(mongo.db.Company.find_one({'_id': user_id}))
+def load_user(username):
+    u = mongo.db.Users.find_one({"username": username})
+    if not u:
+        return None
+    return User(username=u['username'])
+    # return User(mongo.db.Users.find_one({'username': username}, {}))
 
 @app.route("/")
 @app.route("/home")
@@ -30,24 +27,19 @@ def login_category():
 
 @app.route("/login_category/login_u", methods=['GET', 'POST'])
 def login_u():
-    print("Inside login_u")
     if current_user.is_authenticated:
-        print("Inside current_user")
         return redirect(url_for('dashboard_user'))
     # form = LoginForm()
     if request.method == "POST":
-        print("Inside POST")
         email = request.form.get("email")
         user = mongo.db.Users.find_one({"email": email})
         password = request.form.get("password")
         h_password = mongo.db.Users.find_one({"email": email}, {"password": 1, "_id": 0})
         if user and bcrypt.check_password_hash(h_password["password"], password):
-            print("Success")
-            loginuser = User(user)
+            loginuser = User(user['username'])
+            print(loginuser)
             login_user(loginuser)
             next_page = request.values.get('next')
-            print(next_page)
-            print("Inside Users")
             return redirect(next_page) if next_page else redirect(url_for('home'))
         else:
             flash("Invalid username and password", 'danger')
@@ -64,12 +56,9 @@ def login_c():
         password = request.form.get("password")
         h_password = mongo.db.Company.find_one({"email": email}, {"password": 1, "_id": 0})
         if company and bcrypt.check_password_hash(h_password["password"], password):
-            print("Success")
             loginuser = User(company)
             login_user(loginuser)
             next_page = request.values.get('next')
-            print(next_page)
-            print("Inside Company")
             return redirect(next_page) if next_page else redirect(url_for('home'))
         else:
             flash("Invalid username and password", 'danger')
@@ -97,7 +86,10 @@ def interview():
 
 @app.route("/dashboard_user")
 def dashboard_user():
-    return render_template('dashboard_user.html', title = 'User')
+    user = mongo.db.Users.find_one({"username": current_user.get_id()})
+    top_3_c = list(user['top_3_resume_screening'])[1:4]
+    print(top_3_c)
+    return render_template('dashboard_user.html', title = 'User', user = user, top_3_c = top_3_c)
 
 @app.route("/resume", methods=['GET', 'POST'])
 def resume():
@@ -145,10 +137,10 @@ def company():
         h_password = bcrypt.generate_password_hash(password).decode('utf-8')
         if not mongo.db.Company.find_one({"gst_number": gst_number}):
             mongo.db.Company.insert_one({"comapny_name": comapny_name,
-                                                     "email" : comapny_email,
-                                                      "gst_number" : gst_number,
-                                                       "password" :h_password})
-            return redirect(url_for('login'))
+                                        "email" : comapny_email,
+                                        "gst_number" : gst_number,
+                                        "password" :h_password})
+            return redirect(url_for('login_c'))
         else:
             flash("Company already exist", 'danger')
         #print(email, password)
@@ -164,12 +156,26 @@ def employee():
         email = request.form.get("email")
         password = request.form.get("password")
         h_password = bcrypt.generate_password_hash(password).decode('utf-8')
-        if not mongo.db.Users.find_one({"username": username}):
-            mongo.db.Users.insert_one({"employee_name": employee_name,
-                                        "username" : username,
-                                        "email" : email,
-                                        "password" :h_password})
-            return redirect(url_for('login'))
+        if not mongo.db.Users.find_one({"email": email}):
+            mongo.db.Users.insert_one({"name": employee_name,
+                                        "username": username,
+                                        "email": email,
+                                        "password": h_password,
+                                        "interview_got": 0,
+                                        "interview_attented": 0,
+                                        "resume_score": 0,
+                                        "points": 0,
+                                        "top_3_resume_screening": {
+                                            "": 0,
+                                            "": 0,
+                                            "": 0
+                                        },
+                                         "top_3_interview_performance": {
+                                            "": 0,
+                                            "": 0,
+                                            "": 0
+                                        } })
+            return redirect(url_for('login_u'))
         else:
             flash("Username already exists", 'danger')
     return render_template('employee.html', title = 'New Employee')

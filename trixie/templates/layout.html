@@ -79,8 +79,8 @@
                         </li>
                     </ul>
                     {% if current_user.is_authenticated %}
-                        <a class="r-profile" href="/dashboard_user">
-                            <img height="50px" width="50px" style="object-fit: fill; overflow: hidden; border-radius:25px;" src="static/profile_pics/akshay.jpg"/>
+                        <a href="/dashboard_user">
+                            <img class="r-profile" src="static/profile_pics/akshay.jpg"/>
                         </a>
                     {% else %}
                         <a class="login-button" href="/login_category">Log In</a>
