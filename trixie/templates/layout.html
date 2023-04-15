@@ -70,7 +70,7 @@
                             <div class="underline"></div>
                         </li>
                         <li class="nav-link">
-                            <a class="nav-item" href="/interview">Interviews</a>
+                            <a class="nav-item" href="/interview_list">Interviews</a>
                             <div class="underline"></div>
                         </li>
                         <li class="nav-link">
@@ -79,9 +79,15 @@
                         </li>
                     </ul>
                     {% if current_user.is_authenticated %}
-                        <a href="/dashboard_user">
-                            <img class="r-profile" src="static/profile_pics/akshay.jpg"/>
-                        </a>
+                        {% if current_user.c_or_u() == "company" %}
+                            <a href="/dashboard_company">
+                                <img class="r-profile" src="static/profile_pics/pngegg.png" />
+                            </a>
+                        {% else %}
+                            <a href="/dashboard_user">
+                                <img class="r-profile" src="static/profile_pics/akshay.jpg" />
+                            </a>
+                        {% endif %}
                     {% else %}
                         <a class="login-button" href="/login_category">Log In</a>
                     {% endif %}

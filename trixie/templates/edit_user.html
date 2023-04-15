@@ -23,8 +23,11 @@
                                         <!-- <i class="bi bi-camera"></i> -->
                                 </div>
                                 <div class="avatar-preview">
-                                    <img class="profile-user-img img-responsive img-circle" id="imagePreview"
-                                        src="" alt="User profile picture">
+                                    {% if user['profile_pic'] %}
+                                        <img class="profile-user-img img-responsive img-circle" id="imagePreview" src="" alt="User profile picture">
+                                    {% else %}
+                                        <img class="profile-user-img img-responsive img-circle" id="imagePreview" src="../static/profile_pics/pngegg.png" alt="User profile picture">
+                                    {% endif %}
                                 </div>
                             </div>
                         </div>

@@ -1,0 +1,122 @@
+{% extends "layout.html" %}
+{% block styles %}
+<link rel='stylesheet' href='https://adminlte.io/themes/AdminLTE/bower_components/Ionicons/css/ionicons.min.css'>
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/edit_user.css') }}">
+{% endblock %}
+{% block content %}
+<button class="cross-icon" onclick="history.back()">
+    <i id="mic-icon" class="bi bi-arrow-left" style="font-size: 40px; color: #FF8117;"></i>
+</button>
+<section class="whole-login">
+    <div class="login-right-side">
+        <p style="font-family: PoppinsBold; font-size: 50px; text-align: center; color: #043665; margin-bottom: 50px;">
+            Adding Questions</p>
+        <div>
+            <form id="question_answer" method="post" action="/questions">
+                <div class="heading">
+                    Question 1
+                    <div class="form-floating mb-4">
+                        <input name="question-1" type="text" class="form-control" id="floatingName" placeholder="Software Engineer"
+                            required>
+                        <label for="floatingInput">Question</label>
+                    </div>
+                    <div class="form-floating mb-4">
+                        <textarea name="answer-1" class="form-control" id="floatingUsername" rows="5" cols="33"
+                            placeholder="Enter here..." required></textarea>
+                        <label for="floatingInput">Answer</label>
+                    </div>
+                </div>
+
+                <div class="heading">
+                    Question 2
+                    <div class="form-floating mb-4">
+                        <input name="question-2" type="text" class="form-control" id="floatingName" placeholder="Software Engineer"
+                            required>
+                        <label for="floatingInput">Question</label>
+                    </div>
+                    <div class="form-floating mb-4">
+                        <textarea name="answer-2" class="form-control" id="floatingUsername" rows="5" cols="33"
+                            placeholder="Enter here..." required></textarea>
+                        <label for="floatingInput">Answer</label>
+                    </div>
+                </div>
+
+                <div class="heading">
+                    Question 3
+                    <div class="form-floating mb-4">
+                        <input name="question-3" type="text" class="form-control" id="floatingName" placeholder="Software Engineer"
+                            required>
+                        <label for="floatingInput">Question</label>
+                    </div>
+                    <div class="form-floating mb-4">
+                        <textarea name="answer-3" class="form-control" id="floatingUsername" rows="5" cols="33"
+                            placeholder="Enter here..." required></textarea>
+                        <label for="floatingInput">Answer</label>
+                    </div>
+                </div>
+
+                <div class="heading">
+                    Question 4
+                    <div class="form-floating mb-4">
+                        <input name="question-4" type="text" class="form-control" id="floatingName" placeholder="Software Engineer"
+                            required>
+                        <label for="floatingInput">Question</label>
+                    </div>
+                    <div class="form-floating mb-4">
+                        <textarea name="answer-4" class="form-control" id="floatingUsername" rows="5" cols="33"
+                            placeholder="Enter here..." required></textarea>
+                        <label for="floatingInput">Answer</label>
+                    </div>
+                </div>
+
+                <div class="heading">
+                    Question 5
+                    <div class="form-floating mb-4">
+                        <input name="question-5" type="text" class="form-control" id="floatingName" placeholder="Software Engineer"
+                            required>
+                        <label for="floatingInput">Question</label>
+                    </div>
+                    <div class="form-floating mb-4">
+                        <textarea name="answer-5" class="form-control" id="floatingUsername" rows="5" cols="33"
+                            placeholder="Enter here..." required></textarea>
+                        <label for="floatingInput">Answer</label>
+                    </div>
+                </div>
+
+                <!-- <div class="heading">
+                    Question 6
+                    <div class="form-floating mb-4">
+                        <input name="question-6" type="text" class="form-control" id="floatingName" placeholder="Software Engineer"
+                            required>
+                        <label for="floatingInput">Question</label>
+                    </div>
+                    <div class="form-floating mb-4">
+                        <textarea name="answer-6" class="form-control" id="floatingUsername" rows="5" cols="33"
+                            placeholder="Enter here..." required></textarea>
+                        <label for="floatingInput">Answer</label>
+                    </div>
+                </div>
+
+                <div class="heading">
+                    Question 7
+                    <div class="form-floating mb-4">
+                        <input name="question-7" type="text" class="form-control" id="floatingName" placeholder="Software Engineer"
+                            required>
+                        <label for="floatingInput">Question</label>
+                    </div>
+                    <div class="form-floating mb-4">
+                        <textarea name="answer-7" class="form-control" id="floatingUsername" rows="5" cols="33"
+                            placeholder="Enter here..." required></textarea>
+                        <label for="floatingInput">Answer</label>
+                    </div>
+                </div> -->
+                <!-- Submit button -->
+                <div class="button-div">
+                    <button type="submit" class="btn btn-primary btn-block mb-4">Add Questions</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+<script type="text/javascript" src="../static/js/edit_user.js"></script>
+{% endblock content %}

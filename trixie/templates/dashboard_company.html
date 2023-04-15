@@ -4,7 +4,8 @@
 {% endblock %}
 {% block content %}
 <div class="user_dash">
-    <h1 style="text-align: center; letter-spacing: 10px; font-size: 40px; color: white; font-family: PoppinsBold; margin-top: 8%; margin-bottom: 3%;">
+    <h1
+        style="text-align: center; letter-spacing: 10px; font-size: 40px; color: white; font-family: PoppinsBold; margin-top: 8%; margin-bottom: 3%;">
         DASHBOARD
     </h1>
     <div class="user_info">
@@ -14,84 +15,72 @@
                     Hello,
                 </p>
                 <p style="font-size: x-large;">
-                    {{ user['name'] }}
+                    {{ company['name'] }}
                 </p>
             </div>
             <div class="circle">
                 <div class="single-chart">
                     <svg viewBox="0 0 36 36" class="circular-chart orange">
-                        <path class="circle-bg" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
-                        <path class="circle" stroke-dasharray="{{ user['resume_score'] }}, 100"
+                        <path class="circle-bg"
+                            d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                        <path class="circle" stroke-dasharray="9, 100"
                             d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
                     </svg>
                 </div>
                 <div class="profile">
-                    <img 
-                        style="border-radius: 50%;
+                    <img style="border-radius: 50%;
                             object-fit: cover;
                             object-position: 25% 25%;  
                             overflow:hidden;
-                            width: 80px; height: 80px;" 
-                        src="static/photos/profile_pic.jpeg" alt="">
+                            width: 80px; height: 80px;" src="static/photos/profile_pic.jpeg" alt="">
                 </div>
             </div>
             <div style="margin-top: 5%; line-height: 20px; font-family: PoppinsBold;">
                 <p style="font-weight: 600; color: #043665; text-align: center; font-size: larger;">
-                    {{ user['name'] }}
+                    {{ company['name'] }}
                 </p>
                 <p style="font-weight: 600; color: #909090; text-align: center; font-size: large;">
-                    Student
+                    Company
                 </p>
             </div>
             <div style="margin-left: 50px; margin-top: 60px; line-height: 30px; font-family: PoppinsBold;">
-                <a href="#"><p style="font-weight: 600; color: #909090; font-size: large;">Overview</p></a>
+                <a href="#">
+                    <p style="font-weight: 600; color: #909090; font-size: large;">Overview</p>
+                </a>
                 <p style="font-weight: 600; color: #909090; font-size: large;">
                     Calendar
                 </p>
                 <p style="font-weight: 600; color: #909090; font-size: large;">
                     Projects
                 </p>
-                <a href="/edit_user_profile">
+                <a href="/edit_company_profile">
                     <p style="font-weight: 600; color: #909090; font-size: large;">Edit Profile</p>
                 </a>
                 <a href="/logout">
-                    <p style="font-weight: 600; color: #909090; font-size: large;">Logout</p>
+                    <p style="font-weight: 600; color: red; font-size: large;">Logout</p>
                 </a>
             </div>
         </div>
         <div class="user_details">
             <div class="user_scores">
                 <div class="interview_details">
-                    <div class="details_container">
-                        <img class="icons_user_scores" src="static\photos\dash_icon_1.png">
-                        <div class="text_inside_block">
-                            <p class="main_heading" >{{  user['interview_got'] }}</p>
-                            <p class="sub_heading" >Interview Got</p>
+                    <a href="/job_lists">
+                        <div class="details_container">
+                            <img class="icons_user_scores" src="static\photos\dash_icon_1.png">
+                            <div class="text_inside_block">
+                                <p class="main_heading">{{ job_lists }}</p>
+                                <p class="sub_heading">Job Listings</p>
+                            </div>
                         </div>
-                    </div>
-                    <div class="details_container">
-                        <img class="icons_user_scores" src="static\photos\dash_icon_2.png">
-                        <div class="text_inside_block">
-                            <p class="main_heading">{{ user['interview_attented'] }}</p>
-                            <p class="sub_heading">Interviews</p>
+                    </a>
+                    <a href="#">
+                        <div class="details_container">
+                            <img class="icons_user_scores" src="static\photos\dash_icon_2.png">
+                            <div class="text_inside_block">
+                                <p class="main_heading">Add Jobs</p>
+                            </div>
                         </div>
-                    </div>
-                </div>
-                <div class="resume_details">
-                    <div class="details_container">
-                        <img class="icons_user_scores" src="static\photos\dash_icon_3.png">
-                        <div class="text_inside_block">
-                            <p class="main_heading">{{ user['resume_score'] }}%</p>
-                            <p class="sub_heading">Resume Score</p>
-                        </div>
-                    </div>
-                    <div class="details_container">
-                        <img class="icons_user_scores" src="static\photos\dash_icon_4.png">
-                        <div class="text_inside_block">
-                            <p class="main_heading">{{ user['points'] }}</p>
-                            <p class="sub_heading">Points</p>
-                        </div>
-                    </div>
+                    </a>
                 </div>
             </div>
             <div style="display: flex; flex-direction: column; justify-content: center;">
@@ -102,42 +91,48 @@
                     <div class="top_one">
                         <div class="icon_name">
                             <img width="30px" height="30px" src="static\photos\png-apple-logo-9713.png">
-                            <p class="name_per">{{ top_3_c[0] }}</p>
+                            <p class="name_per"></p>
                         </div>
                         <div class="single-chart-1">
                             <svg viewBox="0 0 36 36" class="circular-chart orange">
-                                <path class="circle-bg" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
-                                <path class="circle" stroke-dasharray="{{ user['top_3_resume_screening'][top_3_c[0]] }}, 100"
+                                <path class="circle-bg"
                                     d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
-                                <text x="18" y="20.35" class="percentage">{{ user['top_3_resume_screening'][top_3_c[0]] }}%</text>
+                                <path class="circle"
+                                    stroke-dasharray="8, 100"
+                                    d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                                <text x="18" y="20.35" class="percentage"></text>
                             </svg>
                         </div>
                     </div>
                     <div class="top_one">
                         <div class="icon_name">
                             <img width="30px" height="30px" src="static\photos\png-apple-logo-9713.png">
-                            <p class="name_per">{{ top_3_c[1] }}</p>
+                            <p class="name_per"></p>
                         </div>
                         <div class="single-chart-1">
                             <svg viewBox="0 0 36 36" class="circular-chart orange">
-                                <path class="circle-bg" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
-                                <path class="circle" stroke-dasharray="{{ user['top_3_resume_screening'][top_3_c[1]] }}, 100"
+                                <path class="circle-bg"
                                     d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
-                                <text x="18" y="20.35" class="percentage">{{ user['top_3_resume_screening'][top_3_c[1]] }}%</text>
+                                <path class="circle"
+                                    stroke-dasharray="9, 100"
+                                    d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                                <text x="18" y="20.35" class="percentage"></text>
                             </svg>
                         </div>
                     </div>
                     <div class="top_one">
                         <div class="icon_name">
                             <img width="30px" height="30px" src="static\photos\png-apple-logo-9713.png">
-                            <p class="name_per">{{ top_3_c[2] }}</p>
+                            <p class="name_per"></p>
                         </div>
                         <div class="single-chart-1">
                             <svg viewBox="0 0 36 36" class="circular-chart orange">
-                                <path class="circle-bg" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
-                                <path class="circle" stroke-dasharray="{{ user['top_3_resume_screening'][top_3_c[1]] }}, 100"
+                                <path class="circle-bg"
                                     d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
-                                <text x="18" y="20.35" class="percentage">{{ user['top_3_resume_screening'][top_3_c[1]] }}%</text>
+                                <path class="circle"
+                                    stroke-dasharray="12, 100"
+                                    d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                                <text x="18" y="20.35" class="percentage"></text>
                             </svg>
                         </div>
                     </div>
@@ -146,7 +141,7 @@
                     Last 3 Interview Performance
                 </p>
                 <div class="performance">
-                
+
                 </div>
             </div>
         </div>

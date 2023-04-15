@@ -12,7 +12,7 @@ from bson import Binary
 
 @login_manager.user_loader
 def load_user(username):
-    u = mongo.db.Users.find_one({"username": username})
+    u = mongo.db.Users.find_one({"username": username}) or mongo.db.Company.find_one({"username": username})
     if not u:
         return None
     return User(username=u['username'])
@@ -58,7 +58,7 @@ def login_c():
         password = request.form.get("password")
         h_password = mongo.db.Company.find_one({"email": email}, {"password": 1, "_id": 0})
         if company and bcrypt.check_password_hash(h_password["password"], password):
-            loginuser = User(company)
+            loginuser = User(company['username'])
             login_user(loginuser)
             next_page = request.values.get('next')
             return redirect(next_page) if next_page else redirect(url_for('home'))
@@ -70,6 +70,13 @@ def login_c():
 def about():
     return render_template('about.html', title = 'About')
 
+@app.route("/interview_list")
+@login_required
+def interview_list():
+    user = mongo.db.Users.find_one({"username": current_user.get_id()})
+
+    return render_template('interview_list.html', title = 'Interview Lists')
+
 @app.route("/interview", methods=['GET', 'POST'])
 @login_required
 def interview():
@@ -78,20 +85,27 @@ def interview():
             #seconds = time()
             #return jsonify({'seconds' : seconds})
             pass
-        
         if request.method == 'POST':
             #record = speech_rec()
             text = json.loads(request.data).get('data') # .forms or .json
             print(text)
-
     return render_template('interview.html', title = 'Interview')
 
+#USER DASHBOARD
 @app.route("/dashboard_user")
 def dashboard_user():
     user = mongo.db.Users.find_one({"username": current_user.get_id()})
     top_3_c = list(user['top_3_resume_screening'])[1:4]
     print(top_3_c)
     return render_template('dashboard_user.html', title = 'User', user = user, top_3_c = top_3_c)
+
+#COMPANY DASHBOARD
+@app.route("/dashboard_company")
+def dashboard_company():
+    company = mongo.db.Company.find_one({"username": current_user.get_id()})
+    job_lists = len(list(company['job_lists']))
+    # top_3_c = list(user['top_3_resume_screening'])[1:4]
+    return render_template('dashboard_company.html', title = 'Company', company = company, job_lists = job_lists)
 
 @app.route("/resume", methods=['GET', 'POST'])
 def resume():
@@ -126,7 +140,7 @@ def resume():
 def resume_result():
     return render_template('resume_result.html', title = 'Resume Result')
 
-
+#COMPANY REGISTRATION
 @app.route("/signup/company", methods=['GET', 'POST'])
 def company():
     if current_user.is_authenticated:
@@ -134,20 +148,25 @@ def company():
     if request.method == "POST":
         comapny_name = request.form.get("comapny-name")
         comapny_email = request.form.get("comapny-email")
-        gst_number = request.form.get("gst-number")
+        username = request.form.get("username")
         password = request.form.get("password")
         h_password = bcrypt.generate_password_hash(password).decode('utf-8')
-        if not mongo.db.Company.find_one({"gst_number": gst_number}):
-            mongo.db.Company.insert_one({"comapny_name": comapny_name,
-                                        "email" : comapny_email,
-                                        "gst_number" : gst_number,
-                                        "password" :h_password})
+        if not mongo.db.Company.find_one({"username": username}):
+            mongo.db.Company.insert_one({
+                "name": comapny_name,
+                "email" : comapny_email,
+                "username" : username,
+                "password" :h_password,
+                "profile_pic": "",
+                "job_lists": []
+            })
             return redirect(url_for('login_c'))
         else:
             flash("Company already exist", 'danger')
         #print(email, password)
     return render_template('company.html', title = 'New Company')
 
+#USER REGISTRATION
 @app.route("/signup/employee", methods=['GET', 'POST'])
 def employee():
     if current_user.is_authenticated:
@@ -162,32 +181,27 @@ def employee():
         password = request.form.get("password")
         h_password = bcrypt.generate_password_hash(password).decode('utf-8')
         if not mongo.db.Users.find_one({"email": email}):
-            mongo.db.Users.insert_one({"name": employee_name,
-                                        "username": username,
-                                        "email": email,
-                                        "password": h_password,
-                                        "profile_picture": None,
-                                        "interview_got": 0,
-                                        "interview_attented": 0,
-                                        "resume_score": 0,
-                                        "points": 0,
-                                        "top_3_resume_screening": {
-                                            "": 0,
-                                            "": 0,
-                                            "": 0
-                                        },
-                                         "top_3_interview_performance": {
-                                            "": 0,
-                                            "": 0,
-                                            "": 0
-                                        } })
+            mongo.db.Users.insert_one({
+                "name": employee_name,
+                "username": username,
+                "email": email,
+                "password": h_password,
+                "profile_picture": "",
+                "interview_got": 0,
+                "interview_attented": 0,
+                "resume_score": 0,
+                "points": 0,
+                "top_3_resume_screening": {},
+                "top_3_interview_performance": {},
+                "interview_list": {}
+            })
             return redirect(url_for('login_u'))
         else:
             flash("Username already exists", 'danger')
     return render_template('employee.html', title = 'New Employee')
 
-@app.route("/profile_pic/<filename>")
-def profile_pic(filename):
+@app.route("/file/<path:filename>", methods = ['GET', 'POST'])
+def file(filename):
     return mongo.send_file(filename)
 
 @app.route("/edit_user_profile", methods=['GET', 'POST'])
@@ -209,6 +223,47 @@ def edit_user():
 @app.route("/search", methods=['GET', 'POST'])
 def search():
     return render_template('search.html', title = 'Search')
+
+@app.route("/job_lists", methods=['GET', 'POST'])
+def job_lists():
+    company = mongo.db.Company.find_one({"username": current_user.get_id()})
+    job_list = company['job_lists']
+    return render_template('job_lists.html', title = 'Job Lists', job_list = job_list)
+
+#ADD JOBS
+@app.route("/add_job", methods=['GET', 'POST'])
+def add_job():
+    company = mongo.db.Company.find_one({"username": current_user.get_id()})
+    if request.method == "POST":
+        position = request.form.get("position")
+        desctription = request.form.get("desctription")
+        type = request.form.get("type")
+        date = request.form.get("date")
+        resume_score = request.form.get("resume_score")
+        salary = request.form.get("salary")
+        last_date = request.form.get("last_date")
+        interview_score = request.form.get("interview_score")
+        x = mongo.db.JobListings.insert_one({
+            "company_username": company['username'],
+            "position": position,
+            "desctription": desctription,
+            "type": type,
+            "date": date,
+            "resume_score": resume_score,
+            "salary": salary,
+            "last_date": last_date,
+            "interview_score": interview_score
+        })
+        # obj_id = company = mongo.db.JobListing.find_one({"username": current_user.get_id()})
+        print(x.inserted_id)
+        mongo.db.Company.update_one({"username": current_user.get_id()}, {"$push" : {"job_lists": x.inserted_id}})
+        flash("Job Added to Database", 'success')
+        return redirect(url_for('question'))
+    return render_template('add_job.html', title = 'Add Job')
+
+@app.route("/question", methods=['GET', 'POST'])
+def question():
+    return render_template('question.html', title = 'Question')
 
 @app.route("/logout")
 def logout():
