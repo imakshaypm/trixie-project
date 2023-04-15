@@ -1,0 +1,66 @@
+{% extends "layout.html" %}
+{% block styles %}
+<link rel='stylesheet' href='https://adminlte.io/themes/AdminLTE/bower_components/Ionicons/css/ionicons.min.css'>
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/edit_user.css') }}">
+{% endblock %}
+{% block content %}
+<button class="cross-icon" onclick="history.back()">
+    <i id="mic-icon" class="bi bi-arrow-left" style="font-size: 40px; color: #FF8117;"></i>
+</button>
+<section class="whole-login">
+    <div class="login-right-side">
+        <p style="font-family: PoppinsBold; font-size: 50px; text-align: center; color: #043665; margin-bottom: 50px;">
+            PROFILE EDIT</p>
+        <div>
+            <form method="post" action="/edit_user_profile" enctype="multipart/form-data">
+                <div class="box box-primary">
+                    <div class="box-body box-profile">
+                        <div>
+                            <div class="avatar-upload">
+                                <div class="avatar-edit">
+                                        <input name="file" type='file' id="imageUpload" accept=".png, .jpg, .jpeg" />
+                                        <label for="imageUpload"></label>
+                                        <!-- <i class="bi bi-camera"></i> -->
+                                </div>
+                                <div class="avatar-preview">
+                                    <img class="profile-user-img img-responsive img-circle" id="imagePreview"
+                                        src="" alt="User profile picture">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-floating mb-4">
+                    <input name="employee-name" type="text" class="form-control" id="floatingName" value="{{user['name']}}" required>
+                    <label for="floatingInput">Name</label>
+                </div>
+                <div class="form-floating mb-4">
+                    <input name="username" type="text" class="form-control" id="floatingUsername" placeholder="iamarun" value="{{user['username']}}" required>
+                    <label for="floatingInput">Username</label>
+                </div>
+                <div class="form-floating mb-4">
+                    <input name="email" type="email" class="form-control" id="floatingEmail" placeholder="name@gamil.com" value="{{user['email']}}" required>
+                    <label for="floatingInput">Email</label>
+                </div>
+                <div class="form-floating mb-4">
+                    <input name="old_password" type="password" class="form-control" id="floatingPassword" value="" placeholder="New Password" required>
+                    <label for="floatingPassword">Old Password</label>
+                </div>
+                <div class="form-floating mb-4">
+                    <input name="new_password" type="password" class="form-control" id="floatingPassword" value="" placeholder="New Password" required>
+                    <label for="floatingPassword">New Password</label>
+                </div>
+                <div class="form-floating mb-4">
+                    <input name="password-conform" type="password" class="form-control" id="floatingPasswordConfirm" placeholder="Password" required>
+                    <label for="floatingPasswordConfirm">Conform New Password</label>
+                </div>
+                <!-- Submit button -->
+                <div class="button-div">
+                    <button type="submit" class="btn btn-primary btn-block mb-4">Apply Edit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+<script type="text/javascript" src="../static/js/edit_user.js"></script>
+{% endblock content %}

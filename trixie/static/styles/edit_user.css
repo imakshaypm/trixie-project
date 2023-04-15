@@ -1,0 +1,178 @@
+@import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css");
+
+body {
+    /* background-image: none; */
+    background: white;
+}
+
+.whole-login {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    /* background: white; */
+}
+
+.login-right-side {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-content: center;
+    font-family: Poppins;
+    width: 60%;
+}
+
+.top-text-login {
+    position: absolute;
+    z-index: 99;
+    margin-top: 10%;
+    margin-left: 20px;
+}
+
+.form-group {
+    font-family: PoppinsLight;
+    font-size: larger;
+    color: #043665;
+}
+
+.cross-icon {
+    z-index: 1;
+    position: absolute;
+    top: 30px;
+    right: 40px;
+    transition: 0.70s;
+    -webkit-transition: 0.70s;
+    -moz-transition: 0.70s;
+    -ms-transition: 0.70s;
+    -o-transition: 0.70s;
+    cursor: pointer;
+    outline: 0 !important;
+    border: 0;
+    background: transparent;
+}
+
+.cross-icon:hover {
+    transition: 0.70s;
+    -webkit-transition: 0.70s;
+    -moz-transition: 0.70s;
+    -ms-transition: 0.70s;
+    -o-transition: 0.70s;
+    -webkit-transform: rotate(360deg);
+    -moz-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+    -ms-transform: rotate(360deg);
+    transform: rotate(360deg);
+}
+
+.text-below-password {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    font-size: 15px;
+    margin-bottom: 20px;
+}
+
+.button-div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin-top: 50px;
+}
+
+.button-div .btn {
+    font-family: PoppinsBold;
+    background: #043665;
+    padding: 10px;
+    padding-left: 30px;
+    padding-right: 30px;
+    width: 100%;
+    box-shadow: 0px 121.283px 97.0262px rgba(4, 54, 101, 0.27), 0px 50.6691px 40.5352px rgba(4, 54, 101, 0.194091), 0px 27.0901px 21.6721px rgba(4, 54, 101, 0.160949), 0px 15.1865px 12.1492px rgba(4, 54, 101, 0.135), 0px 8.06543px 6.45234px rgba(4, 54, 101, 0.109051), 0px 3.35621px 2.68496px rgba(4, 54, 101, 0.0759093);
+    border-radius: 15px;
+}
+
+.alternative-button {
+    border: none;
+    outline: none !important;
+    font-size: 30px;
+    color: #043665;
+    margin: 20px;
+    background: transparent;
+}
+
+.form-control {
+    border-radius: 15px;
+}
+
+.form-control:focus {
+    border-color: #FF8117;
+    box-shadow: 0 1px 1px #FFD262, 0 0 8px #FF8117
+}
+
+.form-control-file {
+    border-radius: 15px;
+}
+
+.form-control-file:focus {
+    border-color: #FF8117;
+    box-shadow: 0 1px 1px #FFD262, 0 0 8px #FF8117
+}
+
+.profile-user-img {
+    width: 125px;
+    box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.12);
+    border-radius: 62.5px;
+    object-fit: fill;
+}
+
+.avatar-upload {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 60%;
+    position: relative;
+    margin: auto;
+    margin-bottom: 20px;
+}
+
+.avatar-upload .avatar-edit {
+    position: absolute;
+    right:70px;
+    z-index: 1;
+    top: 90px;
+}
+
+.avatar-upload .avatar-edit input {
+    display: none;
+}
+
+.avatar-upload .avatar-edit input+label {
+    display: inline-block;
+    width: 34px;
+    height: 34px;
+    margin-bottom: 0;
+    border-radius: 100%;
+    background: #FFD262;
+    border: 1px solid #d2d6de;
+    box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.12);
+    cursor: pointer;
+    font-weight: normal;
+    transition: all 0.2s ease-in-out;
+}
+
+.avatar-upload .avatar-edit input+label:hover {
+    background: #f1f1f1;
+    border-color: #d6d6d6;
+}
+
+.avatar-upload .avatar-edit input+label:after {
+    content: "+";
+    font-family: "PoppinsBold";
+    color: #043665;
+    position: absolute;
+    left: 0;
+    right: 0;
+    text-align: center;
+    line-height: 34px;
+    margin: auto;
+}

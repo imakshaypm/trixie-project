@@ -1,11 +1,13 @@
 import json
 import os
 from trixie import app, mongo, bcrypt, login_manager
-from flask import jsonify, render_template, abort, url_for, request, flash, redirect
+from flask import render_template, url_for, request, flash, redirect
 from trixie.resume_screening import resumes
-from flask_login import login_user, UserMixin, current_user, logout_user, login_required
+from flask_login import login_user, current_user, logout_user, login_required
 from werkzeug.utils import secure_filename
 from trixie.froms import User
+from PIL import Image
+from bson import Binary
 
 
 @login_manager.user_loader
@@ -97,7 +99,7 @@ def resume():
         isthisFile = request.files['file']
         filename = secure_filename(isthisFile.filename)
         mongo.save_file(isthisFile.filename, isthisFile)
-        users = mongo.db.Users.insert_one({"resume": isthisFile.filename})
+        mongo.db.Users.insert_one({"resume": isthisFile.filename})
         if filename != '':
             file_ext = os.path.splitext(filename)[1]
         if file_ext not in ['.doc', '.docx']:
@@ -151,6 +153,9 @@ def employee():
     if current_user.is_authenticated:
         return redirect(url_for('dashboard_user'))
     if request.method == "POST":
+        profile_image = "../static/profile_pics/pngegg.png"
+        filename = secure_filename(profile_image.filename)
+        mongo.save_file(profile_image.filename, profile_image)
         employee_name = request.form.get("employee-name")
         username = request.form.get("username")
         email = request.form.get("email")
@@ -161,6 +166,7 @@ def employee():
                                         "username": username,
                                         "email": email,
                                         "password": h_password,
+                                        "profile_picture": None,
                                         "interview_got": 0,
                                         "interview_attented": 0,
                                         "resume_score": 0,
@@ -179,6 +185,26 @@ def employee():
         else:
             flash("Username already exists", 'danger')
     return render_template('employee.html', title = 'New Employee')
+
+@app.route("/profile_pic/<filename>")
+def profile_pic(filename):
+    return mongo.send_file(filename)
+
+@app.route("/edit_user_profile", methods=['GET', 'POST'])
+def edit_user():
+    user = mongo.db.Users.find_one({"username": current_user.get_id()})
+    # image = mongo.send_file(user['profile_picture'])
+    # print("hai",user['profile_picture'])
+    if request.method == "POST":
+        isthisFile = request.files['file']
+        filename = secure_filename(isthisFile.filename)
+        mongo.save_file(isthisFile.filename, isthisFile)
+        employee_name = request.form.get("employee-name")
+        username = request.form.get("username")
+        email = request.form.get("email")
+        password = request.form.get("password")
+        mongo.db.Users.update_many({"username": user['username']}, {"$set" : {"profile_picture" : isthisFile.filename}})
+    return render_template('edit_user.html', title = 'Search', user = user)
 
 @app.route("/search", methods=['GET', 'POST'])
 def search():
