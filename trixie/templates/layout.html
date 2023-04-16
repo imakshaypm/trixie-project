@@ -60,23 +60,22 @@
                 </div>
                 <!-- Navbar Right Side -->
                 <div class="navbar-nav">
+                    {% set navigation_bar = [
+                        ('/home', 'home', 'Home'),
+                        ('/resume', 'resume', 'Resume'),
+                        ('/interview_list', 'interview_list', 'Interview'),
+                        ('/about', 'about', 'About')
+                    ] -%}
+
+                    {% set active_page = active_page|default('home') -%}
+
                     <ul>
-                        <li class="nav-link active-link">
-                            <a class="nav-item" href="/home">Home</a>
-                            <div class="underline"></div>
-                        </li>
-                        <li class="nav-link">
-                            <a class="nav-item" href="/resume">Resumes</a>
-                            <div class="underline"></div>
-                        </li>
-                        <li class="nav-link">
-                            <a class="nav-item" href="/interview_list">Interviews</a>
-                            <div class="underline"></div>
-                        </li>
-                        <li class="nav-link">
-                            <a class="nav-item" href="/about">About</a>
-                            <div class="underline"></div>
-                        </li>
+                        {% for href, id, caption in navigation_bar %}
+                            <li {% if id == active_page %} class="nav-link active-link" {% else %} class="nav-link" {% endif %}>
+                                <a class="nav-item" href="{{ href|e }}">{{ caption|e }}</a>
+                                <div class="underline"></div>
+                            </li>
+                        {% endfor %}
                     </ul>
                     {% if current_user.is_authenticated %}
                         {% if current_user.c_or_u() == "company" %}

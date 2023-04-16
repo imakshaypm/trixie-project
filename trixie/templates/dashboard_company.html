@@ -1,4 +1,5 @@
 {% extends "layout.html" %}
+{% set active_page = "dashboard_company" %}
 {% block styles %}
 <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/user_dashboard.css') }}">
 {% endblock %}
@@ -68,12 +69,12 @@
                         <div class="details_container">
                             <img class="icons_user_scores" src="static\photos\dash_icon_1.png">
                             <div class="text_inside_block">
-                                <p class="main_heading">{{ job_lists }}</p>
+                                <p class="main_heading">{{ job_lists - 1 }}</p>
                                 <p class="sub_heading">Job Listings</p>
                             </div>
                         </div>
                     </a>
-                    <a href="#">
+                    <a href="/add_job">
                         <div class="details_container">
                             <img class="icons_user_scores" src="static\photos\dash_icon_2.png">
                             <div class="text_inside_block">

@@ -1,13 +1,13 @@
 import json
 import os
 from trixie import app, mongo, bcrypt, login_manager
-from flask import render_template, url_for, request, flash, redirect
+from flask import render_template, url_for, request, flash, redirect, session
 from trixie.resume_screening import resumes
 from flask_login import login_user, current_user, logout_user, login_required
 from werkzeug.utils import secure_filename
 from trixie.froms import User
 from PIL import Image
-from bson import Binary
+from bson import  ObjectId
 
 
 @login_manager.user_loader
@@ -191,9 +191,9 @@ def employee():
                 "interview_attented": 0,
                 "resume_score": 0,
                 "points": 0,
-                "top_3_resume_screening": {},
-                "top_3_interview_performance": {},
-                "interview_list": {}
+                "top_3_resume_screening": [],
+                "top_3_interview_performance": [],
+                "interview_list": []
             })
             return redirect(url_for('login_u'))
         else:
@@ -224,11 +224,16 @@ def edit_user():
 def search():
     return render_template('search.html', title = 'Search')
 
+#JOB LISTING
 @app.route("/job_lists", methods=['GET', 'POST'])
 def job_lists():
+    jobs = []
     company = mongo.db.Company.find_one({"username": current_user.get_id()})
     job_list = company['job_lists']
-    return render_template('job_lists.html', title = 'Job Lists', job_list = job_list)
+    job_list.pop(0)
+    for job in job_list:
+        jobs.append(mongo.db.JobListings.find_one({"_id": job}))
+    return render_template('job_lists.html', title = 'Job Lists', job_list = jobs)
 
 #ADD JOBS
 @app.route("/add_job", methods=['GET', 'POST'])
@@ -243,10 +248,13 @@ def add_job():
         salary = request.form.get("salary")
         last_date = request.form.get("last_date")
         interview_score = request.form.get("interview_score")
+        location = request.form.get("location")
         x = mongo.db.JobListings.insert_one({
             "company_username": company['username'],
+            "company_name": company['name'],
             "position": position,
             "desctription": desctription,
+            "location": location,
             "type": type,
             "date": date,
             "resume_score": resume_score,
@@ -254,18 +262,41 @@ def add_job():
             "last_date": last_date,
             "interview_score": interview_score
         })
-        # obj_id = company = mongo.db.JobListing.find_one({"username": current_user.get_id()})
-        print(x.inserted_id)
         mongo.db.Company.update_one({"username": current_user.get_id()}, {"$push" : {"job_lists": x.inserted_id}})
         flash("Job Added to Database", 'success')
+        session['object_id'] = str(x.inserted_id)
         return redirect(url_for('question'))
     return render_template('add_job.html', title = 'Add Job')
 
+
 @app.route("/question", methods=['GET', 'POST'])
 def question():
+    if request.method == "POST":
+        question_1 = request.form.get("question-1")
+        answer_1 = request.form.get("answer-1")
+        question_2 = request.form.get("question-2")
+        answer_2 = request.form.get("answer-2")
+        question_3 = request.form.get("question-3")
+        answer_3 = request.form.get("answer-3")
+        question_4 = request.form.get("question-4")
+        answer_4 = request.form.get("answer-4")
+        question_5 = request.form.get("question-5")
+        answer_5 = request.form.get("answer-5")
+        x = mongo.db.InterviewQuestions.insert_one({
+            question_1: answer_1,
+            question_2: answer_2,
+            question_3: answer_3,
+            question_4: answer_4,
+            question_5: answer_5,
+        })
+        mongo.db.JobListings.update_many({"_id": ObjectId(session['object_id'])}, {"$set" : {"question": x.inserted_id}})
+        print(session['object_id'])
+        flash("Successfully added the job", 'success')
+        return redirect(url_for('dashboard_company'))
     return render_template('question.html', title = 'Question')
 
 @app.route("/logout")
 def logout():
     logout_user()
+    flash("Logged Out", 'success')
     return redirect(url_for('home'))

@@ -3,40 +3,52 @@
 <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/interview_list.css') }}">
 {% endblock %}
 {% block content %}
-<div>
-    For Today
-</div>
-<div class="ag-format-container">
-    <div class="ag-courses_box">
-        <div class="ag-courses_item">
-            <a href="#" class="ag-courses-item_link">
-                <div class="ag-courses-item_bg"></div>
-
-                <div class="ag-courses-item_title">
-                    UI/Web&amp;Graph design for teenagers 11-17&#160;years old
+<div class="today_section">
+    <p>For Today</p>
+    {% for job in job_list %}
+        <div class="container">
+            <div class="ag-format-container">
+                <div class="ag-courses_box">
+                    <div class="ag-courses_item">
+                        <a href="#" class="ag-courses-item_link">
+                            <div class="ag-courses-item_bg"></div>
+                            <div class="ag-courses-item_title">
+                                {{ job['position'] }}
+                            </div>
+                            <div class="ag-courses-item_subtitle">
+                                {{ job['desctription'] }}
+                            </div>
+            
+                            <!-- <div class="ag-courses-item_date-box">
+                                        Start:
+                                        <span class="ag-courses-item_date">
+                                            04.11.2022
+                                        </span>
+                                    </div> -->
+                            <div class="ag-courses-item_date-box">
+                                Start Date:
+                                <span class="ag-courses-item_date">
+                                    {{ job['date'] }}
+                                </span>
+                            </div>
+                            <div class="ag-courses-item_date-box">
+                                Last Date:
+                                <span class="ag-courses-item_date">
+                                    {{ job['last_date'] }}
+                                </span>
+                            </div>
+                            <div class="ag-courses-item_date-box">
+                                Company:
+                                <span class="ag-courses-item_date">
+                                    {{ job['company_name'] }}
+                                </span>
+                            </div>
+                        </a>
+                    </div>
                 </div>
-
-                <!-- <div class="ag-courses-item_date-box">
-                    Start:
-                    <span class="ag-courses-item_date">
-                        04.11.2022
-                    </span>
-                </div> -->
-                <div class="ag-courses-item_date-box">
-                    Time:
-                    <span class="ag-courses-item_date">
-                        10am to 12pm
-                    </span>
-                </div>
-                <div class="ag-courses-item_date-box">
-                    Company:
-                    <span class="ag-courses-item_date">
-                        Qburst
-                    </span>
-                </div>
-            </a>
+            </div>
         </div>
-    </div>
+    {% endfor %}
 </div>
 <div>
     For Today
