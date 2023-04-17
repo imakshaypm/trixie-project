@@ -164,12 +164,10 @@
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    background: red;
 }
 
 .container {
     display: flex;
-    background: pink;
 }
 
 p {

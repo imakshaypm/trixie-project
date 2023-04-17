@@ -172,9 +172,9 @@ def employee():
     if current_user.is_authenticated:
         return redirect(url_for('dashboard_user'))
     if request.method == "POST":
-        profile_image = "../static/profile_pics/pngegg.png"
-        filename = secure_filename(profile_image.filename)
-        mongo.save_file(profile_image.filename, profile_image)
+        # profile_image = "../static/profile_pics/pngegg.png"
+        # filename = secure_filename(profile_image.filename)
+        # mongo.save_file(profile_image.filename, profile_image)
         employee_name = request.form.get("employee-name")
         username = request.form.get("username")
         email = request.form.get("email")
