@@ -75,7 +75,7 @@ def interview_list():
     job_list = []
     user = mongo.db.Users.find_one({"username": current_user.get_id()})
     resume_id = grid_fs.get(user['resume_id'])
-    with open('trixie/download', 'w') as output:
+    with open('resume.docx', 'wb+') as output:
         output.write(resume_id.read())
     # base64_data = codecs.encode(resume_id.read(), 'base64')
     # resume = base64_data.decode('utf-8')
@@ -83,18 +83,17 @@ def interview_list():
     jobs = mongo.db.JobListings.find({})
     for document in jobs:
         resume_score = document['resume_score']
+        print(resume_score)
         desc_id = grid_fs.get(document['desc_id'])
-        with open('trixie/download', 'w') as output:
+        with open('description.docx', 'wb+') as output:
             output.write(desc_id.read())
         # base64_data = codecs.encode(desc_id.read(), 'base64')
         # desc = base64_data.decode('utf-8')
-        result = resumes(resume_id.read(), desc_id.read())
-    # resume_score = jobs['resume_score']
-    # desc_id = grid_fs.get(jobs['desctription'])
-    # base64_data = codecs.encode(desc_id.read(), 'base64')
-    # desc = base64_data.decode('utf-8')
-    # result = resumes(resume, desc)
-    return render_template('interview_list.html', title = 'Interview Lists')
+        result = str(resumes('resume.docx', 'description.docx'))
+        if result >= resume_score:
+            job_list.append(document)
+        print(job_list)
+    return render_template('interview_list.html', title = 'Interview Lists', job_list = job_list)
 
 @app.route("/interview", methods=['GET', 'POST'])
 @login_required
