@@ -79,11 +79,11 @@
                     {% if current_user.is_authenticated %}
                         {% if current_user.c_or_u() == "company" %}
                             <a href="/dashboard_company">
-                                <img {% if active_page == 'dashboard_company' %} style="border-width: 4px;border-color: white;border-style: solid;" {% endif %} class="r-profile" src="static/profile_pics/pngegg.png" />
+                                <img {% if active_page == 'dashboard_company' %} style="border-width: 4px;border-color: white;border-style: solid;" {% endif %} class="r-profile" src="data:image/png;base64, {{ current_user.profile_pic() }}" />
                             </a>
                         {% else %}
                             <a  href="/dashboard_user">
-                                <img {% if active_page == 'dashboard_user' %} style="border-width: 4px;border-color: white;border-style: solid;" {% endif %} class="r-profile" src="static/profile_pics/akshay.jpg" />
+                                <img {% if active_page == 'dashboard_user' %} style="border-width: 4px;border-color: white;border-style: solid;" {% endif %} class="r-profile" src="data:image/png;base64, {{ current_user.profile_pic() }}" />
                             </a>
                         {% endif %}
                     {% else %}

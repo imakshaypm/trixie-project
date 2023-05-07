@@ -69,6 +69,7 @@ def login_c():
 def about():
     return render_template('about.html', title = 'About')
 
+#JOBLISTINGS
 @app.route("/interview_list")
 @login_required
 def interview_list():
@@ -77,22 +78,15 @@ def interview_list():
     resume_id = grid_fs.get(user['resume_id'])
     with open('resume.docx', 'wb+') as output:
         output.write(resume_id.read())
-    # base64_data = codecs.encode(resume_id.read(), 'base64')
-    # resume = base64_data.decode('utf-8')
-    # print(resume)
     jobs = mongo.db.JobListings.find({})
     for document in jobs:
         resume_score = document['resume_score']
-        print(resume_score)
         desc_id = grid_fs.get(document['desc_id'])
         with open('description.docx', 'wb+') as output:
             output.write(desc_id.read())
-        # base64_data = codecs.encode(desc_id.read(), 'base64')
-        # desc = base64_data.decode('utf-8')
         result = str(resumes('resume.docx', 'description.docx'))
         if result >= resume_score:
             job_list.append(document)
-        print(job_list)
     return render_template('interview_list.html', title = 'Interview Lists', job_list = job_list)
 
 @app.route("/interview", methods=['GET', 'POST'])
