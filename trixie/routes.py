@@ -1,14 +1,13 @@
+import codecs
 import json
 import os
-from trixie import app, mongo, bcrypt, login_manager
-from flask import render_template, url_for, request, flash, redirect, session
+from trixie import app, mongo, bcrypt, login_manager, grid_fs
+from flask import make_response, render_template, url_for, request, flash, redirect, session
 from trixie.resume_screening import resumes
 from flask_login import login_user, current_user, logout_user, login_required
 from werkzeug.utils import secure_filename
 from trixie.froms import User
-from PIL import Image
 from bson import  ObjectId
-
 
 @login_manager.user_loader
 def load_user(username):
@@ -73,8 +72,28 @@ def about():
 @app.route("/interview_list")
 @login_required
 def interview_list():
+    job_list = []
     user = mongo.db.Users.find_one({"username": current_user.get_id()})
-
+    resume_id = grid_fs.get(user['resume_id'])
+    with open('trixie/download', 'w') as output:
+        output.write(resume_id.read())
+    # base64_data = codecs.encode(resume_id.read(), 'base64')
+    # resume = base64_data.decode('utf-8')
+    # print(resume)
+    jobs = mongo.db.JobListings.find({})
+    for document in jobs:
+        resume_score = document['resume_score']
+        desc_id = grid_fs.get(document['desc_id'])
+        with open('trixie/download', 'w') as output:
+            output.write(desc_id.read())
+        # base64_data = codecs.encode(desc_id.read(), 'base64')
+        # desc = base64_data.decode('utf-8')
+        result = resumes(resume_id.read(), desc_id.read())
+    # resume_score = jobs['resume_score']
+    # desc_id = grid_fs.get(jobs['desctription'])
+    # base64_data = codecs.encode(desc_id.read(), 'base64')
+    # desc = base64_data.decode('utf-8')
+    # result = resumes(resume, desc)
     return render_template('interview_list.html', title = 'Interview Lists')
 
 @app.route("/interview", methods=['GET', 'POST'])
@@ -95,9 +114,12 @@ def interview():
 @app.route("/dashboard_user")
 def dashboard_user():
     user = mongo.db.Users.find_one({"username": current_user.get_id()})
+    image = grid_fs.get(user['profile_id'])
+    base64_data = codecs.encode(image.read(), 'base64')
+    image = base64_data.decode('utf-8')
     top_3_c = list(user['top_3_resume_screening'])[1:4]
     print(top_3_c)
-    return render_template('dashboard_user.html', title = 'User', user = user, top_3_c = top_3_c)
+    return render_template('dashboard_user.html', title = 'User', user = user, top_3_c = top_3_c, img = image)
 
 #COMPANY DASHBOARD
 @app.route("/dashboard_company")
@@ -157,7 +179,8 @@ def company():
                 "email" : comapny_email,
                 "username" : username,
                 "password" :h_password,
-                "profile_pic": "",
+                "profile_id": "",
+                "resume_id": "",
                 "job_lists": []
             })
             return redirect(url_for('login_c'))
@@ -193,6 +216,8 @@ def employee():
                 "points": 0,
                 "top_3_resume_screening": [],
                 "top_3_interview_performance": [],
+                "profile_id": "",
+                "resume_id": "",
                 "interview_list": []
             })
             return redirect(url_for('login_u'))
@@ -210,14 +235,19 @@ def edit_user():
     # image = mongo.send_file(user['profile_picture'])
     # print("hai",user['profile_picture'])
     if request.method == "POST":
-        isthisFile = request.files['file']
-        filename = secure_filename(isthisFile.filename)
-        mongo.save_file(isthisFile.filename, isthisFile)
+        dp = request.files['image']
+        resume = request.files['resume']
+        filename_dp = secure_filename(dp.filename)
+        filename_resume = secure_filename(resume.filename)
+        # mongo.save_file(filename_dp, dp)
+        # mongo.save_file(filename_resume, resume)
         employee_name = request.form.get("employee-name")
         username = request.form.get("username")
         email = request.form.get("email")
         password = request.form.get("password")
-        mongo.db.Users.update_many({"username": user['username']}, {"$set" : {"profile_picture" : isthisFile.filename}})
+        profile_id = grid_fs.put(dp, content_type=dp.content_type, filename=dp.filename)
+        resume_id = grid_fs.put(resume, content_type=resume.content_type, filename=resume.filename)
+        mongo.db.Users.update_many({"username": user['username']}, {"$set" : {"profile_id" : profile_id, "resume_id": resume_id}})
     return render_template('edit_user.html', title = 'Search', user = user)
 
 @app.route("/search", methods=['GET', 'POST'])
@@ -241,7 +271,7 @@ def add_job():
     company = mongo.db.Company.find_one({"username": current_user.get_id()})
     if request.method == "POST":
         position = request.form.get("position")
-        desctription = request.form.get("desctription")
+        desctription = request.files['desctription']
         type = request.form.get("type")
         date = request.form.get("date")
         resume_score = request.form.get("resume_score")
@@ -249,11 +279,12 @@ def add_job():
         last_date = request.form.get("last_date")
         interview_score = request.form.get("interview_score")
         location = request.form.get("location")
+        desc_id = grid_fs.put(desctription, content_type=desctription.content_type, filename=desctription.filename)
         x = mongo.db.JobListings.insert_one({
             "company_username": company['username'],
             "company_name": company['name'],
             "position": position,
-            "desctription": desctription,
+            "desc_id": desc_id,
             "location": location,
             "type": type,
             "date": date,
