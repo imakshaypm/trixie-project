@@ -6,9 +6,9 @@
 {% block content %}
 <div class="wrapper">
     <div class="title-interview">
-        <p style="font-family: PoppinsBold; color: #043665; font-size: 40px;">TCS Software Engineer Interview</p>
+        <p style="font-family: PoppinsBold; color: #043665; font-size: 40px;">{{job['company_name']}} {{job['position']}} Interview</p>
         <div class="rec-date">
-            <p style="margin-right: 20px;">30 May 2022</p>
+            <p id="t_date" style="margin-right: 20px;">30 May 2022</p>
             <p><i class="bi bi-record2" style="font-size: 17px; color: #F1414F;"></i>Recording 26:32</p>
         </div>
     </div>
@@ -66,9 +66,14 @@
         </div>
     </div>
 </div>
+<!-- <script src="https://requirejs.org/docs/release/2.3.5/minified/require.js"></script> -->
 <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
-<script type="text/javascript" src="static/js/streaming.js"></script>
-<script type="text/javascript" src="static/js/chat.js"></script>
-<script type="text/javascript" src="static/js/response.js"></script>
-<script type="text/javascript" src="static/js/face-api.min.js"></script>
+<script type="text/javascript">
+    var job = '{{ obj_id|tojson }}'
+</script>
+<script type="text/javascript" src="../static/js/streaming.js"></script>
+<script type="text/javascript" src="../static/js/chat.js"></script>
+<script type="text/javascript" type="module" src="../static/js/response.js"></script>
+<script type="text/javascript" src="../static/js/face-api.min.js"></script>
+
 {% endblock content %}

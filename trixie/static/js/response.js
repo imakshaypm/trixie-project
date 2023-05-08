@@ -1,15 +1,27 @@
-import { MongoClient } from 'mongodb';
-var url = "mongodb://localhost:27017/";
+import { connect as _connect } from "mongodb";
+const url = 'mongodb://localhost:27017/';
+const databasename = "Trixie";  // Database name
+_connect(url).then((client) => {
 
-MongoClient.connect(url, function (err, db) {
-    if (err) throw err;
-    var dbo = db.db("mydb");
-    dbo.collection("customers").findOne({}, function (err, result) {
-        if (err) throw err;
-        console.log(result.name);
-        db.close();
-    });
-});
+    const connect = client.db(databasename);
+
+    // Connect to collection
+    const collection = connect
+        .collection("InterviewQuestions");
+
+    // Fetching the records having 
+    // name as saini
+    collection.find({ "_id": job })
+        .toArray().then((ans) => {
+            console.log(ans);
+        });
+}).catch((err) => {
+
+    // Printing the error message
+    console.log(err.Message);
+})
+
+console.log(job)
 
 function getBotResponse(input) {
     //rock paper scissors

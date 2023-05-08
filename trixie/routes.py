@@ -89,9 +89,11 @@ def interview_list():
             job_list.append(document)
     return render_template('interview_list.html', title = 'Interview Lists', job_list = job_list)
 
-@app.route("/interview", methods=['GET', 'POST'])
+@app.route("/interview/<job_id>", methods=['GET', 'POST'])
 @login_required
-def interview():
+def interview(job_id):
+    job = mongo.db.JobListings.find_one({"_id": ObjectId(job_id)})
+    obj_id = str(job['question'])
     if request.is_json: #You have to add contentType application/json in ajax post request to get true
         if request.method == 'GET':
             #seconds = time()
@@ -101,7 +103,7 @@ def interview():
             #record = speech_rec()
             text = json.loads(request.data).get('data') # .forms or .json
             print(text)
-    return render_template('interview.html', title = 'Interview')
+    return render_template('interview.html', title = 'Interview', job = job, obj_id = obj_id)
 
 #USER DASHBOARD
 @app.route("/dashboard_user")
