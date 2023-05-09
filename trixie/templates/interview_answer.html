@@ -1,0 +1,49 @@
+{% extends "layout.html" %}
+{% set active_page = "about" %}
+{% block styles %}
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/about.css') }}">
+{% endblock %}
+{% block content %}
+<div style="display: flex; flex-direction: column; justify-content: center; align-items: center;">
+    <p style="margin-top: 5%;
+            font-family: PoppinsBold;
+            font-size: 60px; 
+            color: white;
+            text-align: center;
+            margin-inline:10%;
+            ">
+        Helping businesses and Candidates to
+        <font color="#FF8117">succeed</font>
+        through the power of AI.
+    </p>
+    <p style="margin-top: 5%;
+            font-family: PoppinsLight;
+            font-size: 30px; 
+            color: white;
+            text-align: center;
+            margin-inline: 100px;
+            ">
+        Our mission is to build a free platform for both the business and candidates to reach there goal. This project
+        has
+        been
+        put forward as a group project consist of four members Abhishek P, Akshay P M, Rahul Rajendran and Gopika V.
+    </p>
+    <div style="display: flex; justify-content:space-evenly; align-items: center; padding: 5%;">
+        <div class="f1-banner-about">
+            <div class="rectangle-rec-about">
+                <img src="static/photos/hand_pic.png" alt="Cinque Terre" style=" transform: rotate(180deg);">
+            </div>
+            <div class="rectangle-shadow-rec-about">
+            </div>
+        </div>
+        <div>
+            <P style=" text-align: start; margin-left: 20%; font-family: Poppins; color: white; font-size: larger;">
+                Our future plan for the project is to make it available to those who especially employees who cant
+                afford money for
+                paid
+                services provide by other service providers.
+            </P>
+        </div>
+    </div>
+</div>
+{% endblock content %}

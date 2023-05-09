@@ -3,8 +3,8 @@ navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia 
 
 $(document).ready(function () {
     $('#start-meeting').click(function () {
+        const myInterval = setInterval(imageFetching, 10000)
         var localstream;
-
         function startVideo() {
             navigator.getUserMedia({
                 video: {} },
@@ -20,6 +20,7 @@ $(document).ready(function () {
         }
 
         function cameraoff() {
+            clearInterval(myInterval);
             const stream = video.srcObject;
             if (stream) {
                 const tracks = stream.getTracks();
@@ -35,9 +36,6 @@ $(document).ready(function () {
             document.getElementById("start-meeting").value = "Stop Meeting"
             document.getElementById("start-meeting").style.background = "#F1414F";
             startVideo()
-            //Fetching Video frame from HTML
-            const video = document.getElementById("video");
-            console.log(video)
             /****Loading the model ****/
             // Promise.all([
             //     faceapi.nets.tinyFaceDetector.loadFromUri("/static/models/"),
@@ -92,6 +90,34 @@ $(document).ready(function () {
         }
     })
 });
+
+//Fetching Video frame from HTML
+function imageFetching() {
+    const video = document.getElementById("video");
+    const canvas = document.createElement("canvas");
+    // scale the canvas accordingly
+    canvas.width = video.videoWidth;
+    canvas.height = video.videoHeight;
+    // draw the video at that frame
+    canvas.getContext('2d')
+        .drawImage(video, 0, 0, canvas.width, canvas.height);
+    // convert it to a usable data URL
+    const dataURL = canvas.toDataURL();
+    $.ajax({
+        url: "/interview_answer",
+        type: "POST",
+        contentType: "application/json; charset=utf-8",
+        data: JSON.stringify({ "video": dataURL }, null, '\t'),
+        // success: function (data) {
+        //     console.log(data.value)
+        // },
+        // error: function () {
+        //     console.log('Error')
+        // }
+    });
+}
+
+
 
 /*$.ajax({
     url: "/interview",
@@ -195,6 +221,7 @@ function getHardRespose(userText) {
     var objDiv = document.getElementById("chatbox");
     objDiv.scrollTop = objDiv.scrollHeight;
 }
+
 
 
 /*function getResponse() {

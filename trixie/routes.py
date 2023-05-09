@@ -1,9 +1,11 @@
 import codecs
-import json
+import sys # to access the system
+import cv2
 import os
 from trixie import app, mongo, bcrypt, login_manager, grid_fs
 from flask import make_response, render_template, url_for, request, flash, redirect, session
 from trixie.resume_screening import resumes
+from trixie.keywordExtractor import keywords
 from flask_login import login_user, current_user, logout_user, login_required
 from werkzeug.utils import secure_filename
 from trixie.froms import User
@@ -92,18 +94,41 @@ def interview_list():
 @app.route("/interview/<job_id>", methods=['GET', 'POST'])
 @login_required
 def interview(job_id):
+    que = []
     job = mongo.db.JobListings.find_one({"_id": ObjectId(job_id)})
-    obj_id = str(job['question'])
+    obj_id = "o456434543463"
+    qestions = mongo.db.InterviewQuestions.find_one({"_id": ObjectId(job['question'])})
+    for question in qestions:
+        if question != '_id':
+            que.append(question)
+    print(que)
+    return render_template('interview.html', title = 'Interview', job = job, job_id = job_id, question = que)
+
+@app.route("/interview_answer", methods=['GET', 'POST'])
+@login_required
+def interview_answer():
     if request.is_json: #You have to add contentType application/json in ajax post request to get true
+        
         if request.method == 'GET':
             #seconds = time()
             #return jsonify({'seconds' : seconds})
             pass
         if request.method == 'POST':
-            #record = speech_rec()
-            text = json.loads(request.data).get('data') # .forms or .json
-            print(text)
-    return render_template('interview.html', title = 'Interview', job = job, obj_id = obj_id)
+            if request.json['video']:
+                image = request.json['video']
+                img = cv2.imread(image, cv2.IMREAD_ANYCOLOR)
+                while True:
+                    cv2.imshow("Sheep", img)
+                    cv2.waitKey(0)
+                    sys.exit() # to exit from all the processes
+                    cv2.destroyAllWindows() # destroy all windows
+            else:
+                answer=request.json['answer']
+                keyword = keywords(answer)
+                print(keyword[1])
+            
+    return render_template('interview_answer.html', title = 'Answer')
+
 
 #USER DASHBOARD
 @app.route("/dashboard_user")

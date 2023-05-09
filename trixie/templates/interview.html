@@ -69,11 +69,12 @@
 <!-- <script src="https://requirejs.org/docs/release/2.3.5/minified/require.js"></script> -->
 <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 <script type="text/javascript">
-    var job = '{{ obj_id|tojson }}'
+    var questions = '{{ question|tojson }}'
+    var job_id = '{{ job_id|tojson }}'
 </script>
 <script type="text/javascript" src="../static/js/streaming.js"></script>
 <script type="text/javascript" src="../static/js/chat.js"></script>
-<script type="text/javascript" type="module" src="../static/js/response.js"></script>
-<script type="text/javascript" src="../static/js/face-api.min.js"></script>
+<script type="text/javascript" src="../static/js/response.js"></script>
+<script type="text/javascript"  src="../static/js/face-api.min.js"></script>
 
 {% endblock content %}
