@@ -1,17 +1,63 @@
+var que = JSON.parse(questions);
+var job_id = JSON.parse(job_id);
+function getBotResponse(input) {
+    //rock paper scissors
+    console.log("Text you entered", input)
+    $.ajax({
+        url: "/interview_answer",
+        type: "POST",
+        contentType: "application/json; charset=utf-8",
+        data: JSON.stringify({ "answer": input }, null, '\t'),
+    });
+    for (let i = 0; i < que.length; i++) {
+        if (input) {
+            console.log("Inside if", que.length)
+            return que[i] && que.shift()
+        }
+    }
+    if (que.length === 0) {
+        document.getElementById("start-meeting").value = "Go to Second Round"
+        document.getElementById("start-meeting").style.background = "#32CD32"
+        $.ajax({
+            url: "/interview_second",
+            type: "POST",
+            contentType: "application/json; charset=utf-8",
+            data: JSON.stringify({ "round_1": "completed", 'job_id': job_id }, null, '\t'),
+        });
+    }
+    // if (input == "rock") {
+    //     return "paper";
+    // } else if (input == "paper") {
+    //     return "scissors";
+    // } else if (input == "scissors") {
+    //     return "rock";
+    // }
+
+    // Simple responses
+    if (input == "hello") {
+        return "Hello there!";
+    } else if (input == "goodbye") {
+        return "Talk to you later!";
+    } else {
+        return "Try asking something else!";
+    }
+}
+
 //Requesting permission from chrome to access webcam
 navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia;
 
 $(document).ready(function () {
+    var myInterval = null
     $('#start-meeting').click(function () {
-        const myInterval = setInterval(imageFetching, 10000)
         var localstream;
         function startVideo() {
+            myInterval = setInterval(imageFetching, 10000)
             navigator.getUserMedia({
                 video: {} },
                 function(stream){
                     video.srcObject = stream
                     localstream = stream;
-                    console.log(localstream)
+                    // console.log(localstream)
                 },
                 function(error){
                     console.error(error)
@@ -20,15 +66,12 @@ $(document).ready(function () {
         }
 
         function cameraoff() {
-            clearInterval(myInterval);
             const stream = video.srcObject;
             if (stream) {
                 const tracks = stream.getTracks();
-
                 tracks.forEach(function (track) {
                     track.stop();
                 });
-
                 video.srcObject = null;
             }
         }
@@ -84,6 +127,7 @@ $(document).ready(function () {
             // });
 
         }else{
+            clearInterval(myInterval);
             document.getElementById("start-meeting").value = "Start Meeting"
             document.getElementById("start-meeting").style.background = "#043665"
             cameraoff()
@@ -99,15 +143,15 @@ function imageFetching() {
     canvas.width = video.videoWidth;
     canvas.height = video.videoHeight;
     // draw the video at that frame
-    canvas.getContext('2d')
-        .drawImage(video, 0, 0, canvas.width, canvas.height);
+    canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height);
     // convert it to a usable data URL
-    const dataURL = canvas.toDataURL();
+    let dataURL = canvas.toDataURL("image/png");
+    dataURL = dataURL.replace('data:image/png;base64,','')
     $.ajax({
         url: "/interview_answer",
         type: "POST",
-        contentType: "application/json; charset=utf-8",
-        data: JSON.stringify({ "video": dataURL }, null, '\t'),
+        // contentType: "application/json; charset=utf-8",
+        data: { imageBase64 : dataURL},
         // success: function (data) {
         //     console.log(data.value)
         // },
@@ -221,30 +265,6 @@ function getHardRespose(userText) {
     var objDiv = document.getElementById("chatbox");
     objDiv.scrollTop = objDiv.scrollHeight;
 }
-
-
-
-/*function getResponse() {
-    let userText = $("#textInput").val();
-
-    if(userText == "") {
-        userText = "I love Code Palace!";
-    }
-
-    let userHtml = '<p class="userText"><span>' + userText + '</span></p>';
-
-    $("#textInput").val("");
-    $("#chatbox").append(userHtml);
-    document.getElementById('chatbox').scrollIntoView({ block: "nearest", inline: "nearest" });
-
-    setTimeout(() => {
-        getHardRespose(userText);
-    }, 1000)
-}
-
-function sendButton() {
-    getResponse();
-}*/
 
 // Press enter to send a message
 $("#textInput").keypress(function (e) {

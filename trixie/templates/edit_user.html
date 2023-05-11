@@ -12,7 +12,7 @@
         <p style="font-family: PoppinsBold; font-size: 50px; text-align: center; color: #043665; margin-bottom: 50px;">
             PROFILE EDIT</p>
         <div>
-            <form method="post" action="/edit_user_profile" enctype="multipart/form-data">
+            <form method="post" action="/edit_user_profile" autocomplete="none" enctype="multipart/form-data">
                 <div class="box box-primary">
                     <div class="box-body box-profile">
                         <div>
@@ -23,8 +23,8 @@
                                         <!-- <i class="bi bi-camera"></i> -->
                                 </div>
                                 <div class="avatar-preview">
-                                    {% if user['profile_pic'] %}
-                                        <img class="profile-user-img img-responsive img-circle" id="imagePreview" src="" alt="User profile picture">
+                                    {% if user['profile_id'] %}
+                                        <img class="profile-user-img img-responsive img-circle" id="imagePreview" src="data:image/png;base64, {{ current_user.profile_pic() }}" alt="User profile picture">
                                     {% else %}
                                         <img class="profile-user-img img-responsive img-circle" id="imagePreview" src="../static/profile_pics/pngegg.png" alt="User profile picture">
                                     {% endif %}
@@ -34,27 +34,27 @@
                     </div>
                 </div>
                 <div class="form-floating mb-4">
-                    <input name="employee-name" type="text" class="form-control" id="floatingName" value="{{user['name']}}" required>
+                    <input name="employee-name" type="text" class="form-control" id="floatingName" value="{{user['name']}}" >
                     <label for="floatingInput">Name</label>
                 </div>
                 <div class="form-floating mb-4">
-                    <input name="username" type="text" class="form-control" id="floatingUsername" placeholder="iamarun" value="{{user['username']}}" required>
+                    <input name="username" type="text" class="form-control" id="floatingUsername" placeholder="iamarun" value="{{user['username']}}" >
                     <label for="floatingInput">Username</label>
                 </div>
                 <div class="form-floating mb-4">
-                    <input name="email" type="email" class="form-control" id="floatingEmail" placeholder="name@gamil.com" value="{{user['email']}}" required>
+                    <input name="email" type="email" class="form-control" id="floatingEmail" placeholder="name@gamil.com" value="{{user['email']}}" >
                     <label for="floatingInput">Email</label>
                 </div>
                 <div class="form-floating mb-4">
-                    <input name="old_password" type="password" class="form-control" id="floatingPassword" value="" placeholder="New Password" required>
+                    <input name="old_password" type="password" class="form-control" id="floatingPassword" autocomplete="new-password" placeholder="Old Password" required>
                     <label for="floatingPassword">Old Password</label>
                 </div>
                 <div class="form-floating mb-4">
-                    <input name="new_password" type="password" class="form-control" id="floatingPassword" value="" placeholder="New Password" required>
+                    <input name="new_password" type="password" class="form-control" id="floatingPassword" value="" placeholder="New Password">
                     <label for="floatingPassword">New Password</label>
                 </div>
                 <div class="form-floating mb-4">
-                    <input name="password-conform" type="password" class="form-control" id="floatingPasswordConfirm" placeholder="Password" required>
+                    <input name="password-conform" type="password" class="form-control" id="floatingPasswordConfirm" placeholder="Password" >
                     <label for="floatingPasswordConfirm">Conform New Password</label>
                 </div>
                 <div class="form-floating mb-4">

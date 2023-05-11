@@ -1,11 +1,15 @@
 import codecs
-import sys # to access the system
-import cv2
+import io, base64
+import random
+from PIL import Image
+import io
 import os
+from PIL import Image 
 from trixie import app, mongo, bcrypt, login_manager, grid_fs
 from flask import make_response, render_template, url_for, request, flash, redirect, session
 from trixie.resume_screening import resumes
 from trixie.keywordExtractor import keywords
+from trixie.emotion import em_predict
 from flask_login import login_user, current_user, logout_user, login_required
 from werkzeug.utils import secure_filename
 from trixie.froms import User
@@ -91,43 +95,90 @@ def interview_list():
             job_list.append(document)
     return render_template('interview_list.html', title = 'Interview Lists', job_list = job_list)
 
+#FIRST Round
 @app.route("/interview/<job_id>", methods=['GET', 'POST'])
 @login_required
 def interview(job_id):
     que = []
     job = mongo.db.JobListings.find_one({"_id": ObjectId(job_id)})
-    obj_id = "o456434543463"
     qestions = mongo.db.InterviewQuestions.find_one({"_id": ObjectId(job['question'])})
     for question in qestions:
         if question != '_id':
             que.append(question)
-    print(que)
-    return render_template('interview.html', title = 'Interview', job = job, job_id = job_id, question = que)
+    
+    return render_template('interview.html', title = 'First Round', job = job, job_id = job_id, question = que)
 
+keys = []
 @app.route("/interview_answer", methods=['GET', 'POST'])
 @login_required
 def interview_answer():
-    if request.is_json: #You have to add contentType application/json in ajax post request to get true
-        
-        if request.method == 'GET':
-            #seconds = time()
-            #return jsonify({'seconds' : seconds})
+    reaction = []
+    # if request.is_json: #You have to add contentType application/json in ajax post request to get true
+    if request.method == 'GET':
             pass
-        if request.method == 'POST':
-            if request.json['video']:
-                image = request.json['video']
-                img = cv2.imread(image, cv2.IMREAD_ANYCOLOR)
-                while True:
-                    cv2.imshow("Sheep", img)
-                    cv2.waitKey(0)
-                    sys.exit() # to exit from all the processes
-                    cv2.destroyAllWindows() # destroy all windows
-            else:
-                answer=request.json['answer']
-                keyword = keywords(answer)
-                print(keyword[1])
+    if request.method == 'POST':
+        if request.is_json:
+            answer=request.json['answer']
+            keyword = keywords(answer)
+            keys.append(keyword[0])
+        else:
+            image_b64 = request.values['imageBase64']
+            im = Image.open(io.BytesIO(base64.b64decode(image_b64.split(',')[0])))
+            im.save("image.png")
+            result = em_predict()
+            reaction.append(result)
+            print(reaction)
             
     return render_template('interview_answer.html', title = 'Answer')
+
+#SECOND ROUND
+keyw = mongo.db.KeywordQuestions.find_one({"_id": ObjectId('645b065144e9af71e75e6477')})
+keyw.pop("_id")
+@app.route("/interview_second", methods=['GET', 'POST'])
+@login_required
+def interview_second():
+    
+    second_round = []
+    if request.method == 'POST':
+        job = mongo.db.JobListings.find_one({"_id": ObjectId(request.json['job_id'])})
+        if request.is_json:
+            if request.json['round_1']:
+                if len(keys) <= 5:
+                    for i in range(6):
+                        q_arr = random.choice([arr for arr in keyw.keys()])
+                        q = random.choice(keyw[q_arr])
+                        second_round.append(q)
+                        index = keyw[q_arr].index(q)
+                        del(keyw[q_arr][index])
+                        i = i + 1
+                else:
+                    for k in keys:
+                        if k in keyw:
+                            q = random.choice(keyw[q_arr])
+                            second_round.append(q)
+                            index = keyw[q_arr].index(q)
+                            del(keyw[q_arr][index])
+                        else:
+                            q_arr = random.choice([arr for arr in keyw.keys()])
+                            q = random.choice(keyw[q_arr])
+                            second_round.append(q)
+                            index = keyw[q_arr].index(q)
+                            del(keyw[q_arr][index])
+        return render_template('interview.html', title = "Second Round", job = job, job_id = request.json['job_id'], question = second_round)
+
+@app.route("/interview_keyword", methods=['GET', 'POST'])
+@login_required
+def interview_keyword():
+    reaction = []
+    # if request.is_json: #You have to add contentType application/json in ajax post request to get true
+    if request.method == 'GET':
+            pass
+    if request.method == 'POST':
+        answer=request.json['answer']
+        keyword = keywords(answer)
+        print(keyword[1])
+    print(reaction)
+    return render_template('interview_answer.html', title = 'Keyword')
 
 
 #USER DASHBOARD
@@ -245,29 +296,32 @@ def employee():
             flash("Username already exists", 'danger')
     return render_template('employee.html', title = 'New Employee')
 
-@app.route("/file/<path:filename>", methods = ['GET', 'POST'])
-def file(filename):
-    return mongo.send_file(filename)
-
 @app.route("/edit_user_profile", methods=['GET', 'POST'])
 def edit_user():
     user = mongo.db.Users.find_one({"username": current_user.get_id()})
-    # image = mongo.send_file(user['profile_picture'])
-    # print("hai",user['profile_picture'])
     if request.method == "POST":
-        dp = request.files['image']
-        resume = request.files['resume']
-        filename_dp = secure_filename(dp.filename)
-        filename_resume = secure_filename(resume.filename)
-        # mongo.save_file(filename_dp, dp)
-        # mongo.save_file(filename_resume, resume)
-        employee_name = request.form.get("employee-name")
-        username = request.form.get("username")
         email = request.form.get("email")
-        password = request.form.get("password")
-        profile_id = grid_fs.put(dp, content_type=dp.content_type, filename=dp.filename)
-        resume_id = grid_fs.put(resume, content_type=resume.content_type, filename=resume.filename)
-        mongo.db.Users.update_many({"username": user['username']}, {"$set" : {"profile_id" : profile_id, "resume_id": resume_id}})
+        old_password = request.form.get("old_password")
+        h_password = mongo.db.Users.find_one({"email": email}, {"password": 1, "_id": 0})
+        if user and bcrypt.check_password_hash(h_password["password"], old_password):
+            dp = request.files['image']
+            resume = request.files['resume']
+            employee_name = request.form.get("employee-name")
+            username = request.form.get("username")
+            if not mongo.db.Users.find_one({"username": username}):
+                mongo.db.Users.update_many({"username": user['username']})
+            else:
+                flash("Username already exist", 'success')
+            mongo.db.Users.update_many({"name": employee_name})
+            if resume:
+                profile_id = grid_fs.put(dp, content_type=dp.content_type, filename=dp.filename)
+                mongo.db.Users.update_many({"username": user['username']}, {"$set" : {"profile_id" : profile_id}})
+        
+            if dp:
+                resume_id = grid_fs.put(resume, content_type=resume.content_type, filename=resume.filename)
+                mongo.db.Users.update_many({"username": user['username']}, {"$set" : {"resume_id": resume_id}})
+        else:
+            flash("Password is incorrect", 'danger') 
     return render_template('edit_user.html', title = 'Search', user = user)
 
 @app.route("/search", methods=['GET', 'POST'])
