@@ -1,10 +1,11 @@
 var que = JSON.parse(questions);
 var job_id = JSON.parse(job_id);
+var round = JSON.parse(round);
 function getBotResponse(input) {
     //rock paper scissors
     console.log("Text you entered", input)
     $.ajax({
-        url: "/interview_answer",
+        url: "/interview_keyword",
         type: "POST",
         contentType: "application/json; charset=utf-8",
         data: JSON.stringify({ "answer": input }, null, '\t'),
@@ -18,11 +19,15 @@ function getBotResponse(input) {
     if (que.length === 0) {
         document.getElementById("start-meeting").value = "Go to Second Round"
         document.getElementById("start-meeting").style.background = "#32CD32"
-        $.ajax({
-            url: "/interview_second",
-            type: "POST",
-            contentType: "application/json; charset=utf-8",
-            data: JSON.stringify({ "round_1": "completed", 'job_id': job_id }, null, '\t'),
+    }
+    if (document.getElementById("start-meeting").value = "Go to Second Round") {
+        $('start-meeting').on('click', function () {
+            $.ajax({
+                url: "/interview_second",
+                type: "POST",
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify({ "round_1": "completed", 'job_id': job_id }, null, '\t'),
+            });
         });
     }
     // if (input == "rock") {
@@ -148,10 +153,10 @@ function imageFetching() {
     let dataURL = canvas.toDataURL("image/png");
     dataURL = dataURL.replace('data:image/png;base64,','')
     $.ajax({
-        url: "/interview_answer",
+        url: "/interview_reaction",
         type: "POST",
         // contentType: "application/json; charset=utf-8",
-        data: { imageBase64 : dataURL},
+        data: { round : round, imageBase64: dataURL },
         // success: function (data) {
         //     console.log(data.value)
         // },

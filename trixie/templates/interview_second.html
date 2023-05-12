@@ -6,7 +6,8 @@
 {% block content %}
 <div class="wrapper">
     <div class="title-interview">
-        <p style="font-family: PoppinsBold; color: #043665; font-size: 40px;">{{job['company_name']}} {{job['position']}} Interview</p>
+        <p style="font-family: PoppinsBold; color: #043665; font-size: 40px;">{{job['company_name']}}
+            {{job['position']}} Interview</p>
         <div class="rec-date">
             <p id="t_date" style="margin-right: 20px;">30 May 2022</p>
             <p><i class="bi bi-record2" style="font-size: 17px; color: #F1414F;"></i>Recording 26:32</p>
@@ -15,10 +16,12 @@
     <div class="interview-container">
         <div class="vedio-and-buttons">
             <div class="video-interface">
-                <div class="container" style="height: 100%; width: 100%; position: absolute; display: flex; flex-direction: column; overflow:hidden ; background: #000; z-index: 0;">
-                    <video id="video" height="100%" width="100%" autoplay muted style=" z-index: 0; flex-grow: 1; display: flex; object-fit: cover;"></video>
+                <div class="container"
+                    style="height: 100%; width: 100%; position: absolute; display: flex; flex-direction: column; overflow:hidden ; background: #000; z-index: 0;">
+                    <video id="video" height="100%" width="100%" autoplay muted
+                        style=" z-index: 0; flex-grow: 1; display: flex; object-fit: cover;"></video>
                 </div>
-                <main id="visualizer" style="position: absolute; z-index: 99;" >
+                <main id="visualizer" style="position: absolute; z-index: 99;">
                 </main>
             </div>
             <div class="interview-buttons">
@@ -43,7 +46,8 @@
         <div class="message-interface">
             <div class="top-texts">
                 <p style="font-family: PoppinsBold; color: #043665; font-size: 20px;">Questions and Answers</p>
-                <p style="font-family: PoppinsLight; color: #818A98; font-size: 15px;">You can chat here answer of questions during the meeting and they will be stored after the meeting.</p>
+                <p style="font-family: PoppinsLight; color: #818A98; font-size: 15px;">You can chat here answer of
+                    questions during the meeting and they will be stored after the meeting.</p>
             </div>
             <div id="chatbox" style="overflow: scroll;
                                     display: flex;
@@ -52,7 +56,8 @@
                                     margin-bottom: -17px;
                                     scroll-behavior: smooth;
                                     overscroll-behavior: contain;">
-                <h5 id="chat-timestamp" style=" font-family: Poppins; color: #043665; font-size: medium; text-align: center;"></h5>
+                <h5 id="chat-timestamp"
+                    style=" font-family: Poppins; color: #043665; font-size: medium; text-align: center;"></h5>
                 <p id="botStarterMessage" class="botText"><span>Loading...</span></p>
             </div>
             <div id="chat-bar-bottom">
@@ -62,13 +67,12 @@
     </div>
 </div>
 <!-- <script src="https://requirejs.org/docs/release/2.3.5/minified/require.js"></script> -->
-<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"
+    integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 <script type="text/javascript">
     var questions = '{{ question|tojson }}'
     var job_id = '{{ job_id|tojson }}'
-    var round = '{{ title|tojson }}'
 </script>
 <script type="text/javascript" src="../static/js/streaming.js"></script>
 <script type="text/javascript" src="../static/js/chat.js"></script>
-
 {% endblock content %}

@@ -1,6 +1,7 @@
 {% extends "layout.html" %}
 {% block styles %}
 <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/company_employee.css') }}">
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/edit_user.css') }}">
 {% endblock %}
 {% block content %}
 <button class="cross-icon" onclick="history.back()">
@@ -23,7 +24,24 @@
         <p style="font-family: PoppinsBold; font-size: 50px; text-align: center; color: #043665; margin-bottom: 50px;">
             COMPANY SIGN UP</p>
         <div>
-            <form method="post" action="/signup/company">
+            <form method="post" action="/signup/company" enctype="multipart/form-data">
+                <div class="box box-primary">
+                    <div class="box-body box-profile">
+                        <div>
+                            <div class="avatar-upload">
+                                <div class="avatar-edit">
+                                    <input name="image" type='file' id="imageUpload" accept=".png, .jpg, .jpeg" />
+                                    <label for="imageUpload"></label>
+                                    <!-- <i class="bi bi-camera"></i> -->
+                                </div>
+                                <div class="avatar-preview">
+                                    <img class="profile-user-img img-responsive img-circle" id="imagePreview"
+                                        src="../static/profile_pics/pngegg.png" alt="User profile picture">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <div class="form-floating mb-4">
                     <input name="comapny-name" type="text" class="form-control" id="floatingCompanyName" placeholder="Google" required>
                     <label for="floatingInput">Company name</label>
@@ -33,11 +51,11 @@
                     <label for="floatingPassword">Company email</label>
                 </div>
                 <div class="form-floating mb-4">
-                    <input name="username" type="text" class="form-control" id="floatingGST" placeholder="AAAAA0000A" required>
+                    <input name="username" type="text" class="form-control" id="floatingGST" value="" placeholder="AAAAA0000A" required>
                     <label for="floatingInput">Username</label>
                 </div>
                 <div class="form-floating mb-4">
-                    <input name="password" type="password" class="form-control" id="floatingPassword" placeholder="password" required>
+                    <input name="password" type="password" class="form-control" id="floatingPassword" autocomplete="new-password" placeholder="password" required>
                     <label for="floatingPassword">Password</label>
                 </div>
                 <div class="form-floating mb-4">
@@ -53,4 +71,5 @@
     </div>
 </section>
 <script type="text/javascript" src="../static/js/company_employee.js"></script>
+<script type="text/javascript" src="../static/js/edit_user.js"></script>
 {% endblock content %}

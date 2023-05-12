@@ -109,10 +109,9 @@ def interview(job_id):
     return render_template('interview.html', title = 'First Round', job = job, job_id = job_id, question = que)
 
 keys = []
-@app.route("/interview_answer", methods=['GET', 'POST'])
+@app.route("/interview_keyword", methods=['GET', 'POST'])
 @login_required
 def interview_answer():
-    reaction = []
     # if request.is_json: #You have to add contentType application/json in ajax post request to get true
     if request.method == 'GET':
             pass
@@ -121,14 +120,7 @@ def interview_answer():
             answer=request.json['answer']
             keyword = keywords(answer)
             keys.append(keyword[0])
-        else:
-            image_b64 = request.values['imageBase64']
-            im = Image.open(io.BytesIO(base64.b64decode(image_b64.split(',')[0])))
-            im.save("image.png")
-            result = em_predict()
-            reaction.append(result)
-            print(reaction)
-            
+    print('Keywords', keys)
     return render_template('interview_answer.html', title = 'Answer')
 
 #SECOND ROUND
@@ -137,8 +129,8 @@ keyw.pop("_id")
 @app.route("/interview_second", methods=['GET', 'POST'])
 @login_required
 def interview_second():
-    
     second_round = []
+    print("Reached 2nd round")
     if request.method == 'POST':
         job = mongo.db.JobListings.find_one({"_id": ObjectId(request.json['job_id'])})
         if request.is_json:
@@ -164,21 +156,30 @@ def interview_second():
                             second_round.append(q)
                             index = keyw[q_arr].index(q)
                             del(keyw[q_arr][index])
-        return render_template('interview.html', title = "Second Round", job = job, job_id = request.json['job_id'], question = second_round)
+    print(second_round)
+    return render_template('interview_second.html', title = "Second Round", job = job, job_id = request.json['job_id'], question = second_round)
 
-@app.route("/interview_keyword", methods=['GET', 'POST'])
+r1_reaction = []
+r2_reaction = []
+@app.route("/interview_reaction", methods=['GET', 'POST'])
 @login_required
 def interview_keyword():
-    reaction = []
-    # if request.is_json: #You have to add contentType application/json in ajax post request to get true
-    if request.method == 'GET':
-            pass
-    if request.method == 'POST':
-        answer=request.json['answer']
-        keyword = keywords(answer)
-        print(keyword[1])
-    print(reaction)
-    return render_template('interview_answer.html', title = 'Keyword')
+    if request.values['round'] == 'First Round':
+        image_b64 = request.values['imageBase64']
+        im = Image.open(io.BytesIO(base64.b64decode(image_b64.split(',')[0])))
+        im.save("image.png")
+        result = em_predict()
+        r1_reaction.append(result)
+    else:
+        image_b64 = request.values['imageBase64']
+        im = Image.open(io.BytesIO(base64.b64decode(image_b64.split(',')[0])))
+        im.save("image.png")
+        result = em_predict()
+        r2_reaction.append(result)
+        print('Reaction', r2_reaction)
+    print('Round 1 Reaction', r1_reaction)
+    print('Round 2 Reaction', r2_reaction)
+    return render_template('interview_answer.html', title = 'Reaction')
 
 
 #USER DASHBOARD
@@ -239,6 +240,8 @@ def company():
     if current_user.is_authenticated:
         return redirect(url_for('dashboard_user'))
     if request.method == "POST":
+        dp = request.files['image']
+        profile_id = grid_fs.put(dp, content_type=dp.content_type, filename=dp.filename)
         comapny_name = request.form.get("comapny-name")
         comapny_email = request.form.get("comapny-email")
         username = request.form.get("username")
@@ -250,8 +253,7 @@ def company():
                 "email" : comapny_email,
                 "username" : username,
                 "password" :h_password,
-                "profile_id": "",
-                "resume_id": "",
+                "profile_id": profile_id,
                 "job_lists": []
             })
             return redirect(url_for('login_c'))
@@ -266,9 +268,10 @@ def employee():
     if current_user.is_authenticated:
         return redirect(url_for('dashboard_user'))
     if request.method == "POST":
-        # profile_image = "../static/profile_pics/pngegg.png"
-        # filename = secure_filename(profile_image.filename)
-        # mongo.save_file(profile_image.filename, profile_image)
+        dp = request.files['image']
+        profile_id = grid_fs.put(dp, content_type=dp.content_type, filename=dp.filename)
+        resume = request.files['resume']
+        resume_id = grid_fs.put(resume, content_type=resume.content_type, filename=resume.filename)
         employee_name = request.form.get("employee-name")
         username = request.form.get("username")
         email = request.form.get("email")
@@ -287,8 +290,8 @@ def employee():
                 "points": 0,
                 "top_3_resume_screening": [],
                 "top_3_interview_performance": [],
-                "profile_id": "",
-                "resume_id": "",
+                "profile_id": profile_id,
+                "resume_id": resume_id,
                 "interview_list": []
             })
             return redirect(url_for('login_u'))
@@ -365,7 +368,8 @@ def add_job():
             "resume_score": resume_score,
             "salary": salary,
             "last_date": last_date,
-            "interview_score": interview_score
+            "interview_score": interview_score,
+            'selected_candidates':[]
         })
         mongo.db.Company.update_one({"username": current_user.get_id()}, {"$push" : {"job_lists": x.inserted_id}})
         flash("Job Added to Database", 'success')
