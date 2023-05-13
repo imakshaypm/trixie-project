@@ -2,26 +2,33 @@ var que = JSON.parse(questions);
 var job_id = JSON.parse(job_id);
 var round = JSON.parse(round);
 function getBotResponse(input) {
+    //rock paper scissors
     console.log("Text you entered", input)
-    if( round === "First Round"){
-        $.ajax({
-            url: "/interview_keyword",
-            type: "POST",
-            contentType: "application/json; charset=utf-8",
-            data: JSON.stringify({ "answer": input }, null, '\t'),
-        });
-    }
+    // $.ajax({
+    //     url: "/interview_keyword",
+    //     type: "POST",
+    //     contentType: "application/json; charset=utf-8",
+    //     data: JSON.stringify({ "answer": input }, null, '\t'),
+    // });
     for (let i = 0; i < que.length; i++) {
         if (input) {
+            console.log("Inside if", que.length)
             return que[i] && que.shift()
         }
     }
-    if (que.length === 0 && round == "First Round") {
-        document.getElementById("start-meeting").value = "Go to Second Round"
+    if (que.length === 0) {
+        document.getElementById("start-meeting").value = "End Meeting"
         document.getElementById("start-meeting").style.background = "#32CD32"
-    }else{
-        document.getElementById("start-meeting").value = "Finish Meeting"
-        document.getElementById("start-meeting").style.background = "#32CD32"
+    }
+    if (document.getElementById("start-meeting").value = "End Meeting") {
+        $('start-meeting').on('click', function () {
+            $.ajax({
+                url: "/interview_result",
+                type: "POST",
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify({ "round_1": "completed", 'job_id': job_id }, null, '\t'),
+            });
+        });
     }
 
     // Simple responses
@@ -34,18 +41,9 @@ function getBotResponse(input) {
     }
 }
 
-$('#start-meeting').click(function () {
-    console.log("Outside the button condition")
-    if (document.getElementById("start-meeting").value === "Go to Second Round") {
-        window.location.href = '/interview_second/' + job_id;
-    }
-    if (document.getElementById("start-meeting").value === "Finish Meeting") {
-        window.location.href = '/interview_finish/';
-    }
-});
-
 //Requesting permission from chrome to access webcam
 navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia;
+
 $(document).ready(function () {
     var myInterval = null
     $('#start-meeting').click(function () {
@@ -53,16 +51,19 @@ $(document).ready(function () {
         function startVideo() {
             myInterval = setInterval(imageFetching, 10000)
             navigator.getUserMedia({
-                video: {} },
-                function(stream){
+                video: {}
+            },
+                function (stream) {
                     video.srcObject = stream
                     localstream = stream;
+                    // console.log(localstream)
                 },
-                function(error){
+                function (error) {
                     console.error(error)
                 }
             );
         }
+
         function cameraoff() {
             const stream = video.srcObject;
             if (stream) {
@@ -77,7 +78,8 @@ $(document).ready(function () {
             document.getElementById("start-meeting").value = "Stop Meeting"
             document.getElementById("start-meeting").style.background = "#F1414F";
             startVideo()
-        }else{
+
+        } else {
             clearInterval(myInterval);
             document.getElementById("start-meeting").value = "Start Meeting"
             document.getElementById("start-meeting").style.background = "#043665"
@@ -97,12 +99,12 @@ function imageFetching() {
     canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height);
     // convert it to a usable data URL
     let dataURL = canvas.toDataURL("image/png");
-    dataURL = dataURL.replace('data:image/png;base64,','')
+    dataURL = dataURL.replace('data:image/png;base64,', '')
     $.ajax({
         url: "/interview_reaction",
         type: "POST",
         // contentType: "application/json; charset=utf-8",
-        data: { round : round, imageBase64: dataURL },
+        data: { round: round, imageBase64: dataURL },
         // success: function (data) {
         //     console.log(data.value)
         // },
@@ -112,27 +114,10 @@ function imageFetching() {
     });
 }
 
-
-
-/*$.ajax({
-    url: "/interview",
-    type: "POST",
-    contentType: "application/json; charset=utf-8",
-    data: JSON.stringify({
-        clicked: true
-    }),
-    success: function (data) {
-        console.log(data.value)
-    },
-    error: function () {
-        console.log('Error')
-    }
-});*/
-
 //DONT EVER TOUCH THIS SECTION OF CODE.
 //##
 var recognition = null
-function cheack(){
+function cheack() {
     init()
     if (document.getElementById("mic-icon").className === "bi bi-mic-mute-fill") {
         document.getElementById("mic-icon").className = "bi bi-mic-fill"
@@ -184,7 +169,7 @@ function getTime() {
     hours = today.getHours();
     minutes = today.getMinutes();
 
-    if(hours < 10) {
+    if (hours < 10) {
         hours = '0' + hours;
     }
 
@@ -197,7 +182,7 @@ function getTime() {
 }
 
 function firstBotMessage() {
-    let firstMessage = "If you are ready you can start the meeting."
+    let firstMessage = "How's it going?"
     document.getElementById("botStarterMessage").innerHTML = '<p class="botText"><span>' + firstMessage + '</span></p>'
 
     let time = getTime();

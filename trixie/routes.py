@@ -126,38 +126,35 @@ def interview_answer():
 #SECOND ROUND
 keyw = mongo.db.KeywordQuestions.find_one({"_id": ObjectId('645b065144e9af71e75e6477')})
 keyw.pop("_id")
-@app.route("/interview_second", methods=['GET', 'POST'])
+@app.route("/interview_second/<job_id>", methods=['GET', 'POST'])
 @login_required
-def interview_second():
+def interview_second(job_id):
     second_round = []
-    print("Reached 2nd round")
-    if request.method == 'POST':
-        job = mongo.db.JobListings.find_one({"_id": ObjectId(request.json['job_id'])})
-        if request.is_json:
-            if request.json['round_1']:
-                if len(keys) <= 5:
-                    for i in range(6):
-                        q_arr = random.choice([arr for arr in keyw.keys()])
-                        q = random.choice(keyw[q_arr])
-                        second_round.append(q)
-                        index = keyw[q_arr].index(q)
-                        del(keyw[q_arr][index])
-                        i = i + 1
+    job = mongo.db.JobListings.find_one({"_id": ObjectId(job_id)})
+    if len(keys) == 0:
+        for i in range(6):
+            q_arr = random.choice([arr for arr in keyw.keys()])
+            q = random.choice(keyw[q_arr])
+            second_round.append(q)
+            index = keyw[q_arr].index(q)
+            del(keyw[q_arr][index])
+            i = i + 1
+    else:
+        for k in keys:
+            if len(second_round) <= 5:
+                if k in keyw:
+                    q = random.choice(keyw[q_arr])
+                    second_round.append(q)
+                    index = keyw[q_arr].index(q)
+                    del(keyw[q_arr][index])
                 else:
-                    for k in keys:
-                        if k in keyw:
-                            q = random.choice(keyw[q_arr])
-                            second_round.append(q)
-                            index = keyw[q_arr].index(q)
-                            del(keyw[q_arr][index])
-                        else:
-                            q_arr = random.choice([arr for arr in keyw.keys()])
-                            q = random.choice(keyw[q_arr])
-                            second_round.append(q)
-                            index = keyw[q_arr].index(q)
-                            del(keyw[q_arr][index])
+                    q_arr = random.choice([arr for arr in keyw.keys()])
+                    q = random.choice(keyw[q_arr])
+                    second_round.append(q)
+                    index = keyw[q_arr].index(q)
+                    del(keyw[q_arr][index])
     print(second_round)
-    return render_template('interview_second.html', title = "Second Round", job = job, job_id = request.json['job_id'], question = second_round)
+    return render_template('interview_second.html', title = "Second Round", job = job, job_id = job_id, question = second_round)
 
 r1_reaction = []
 r2_reaction = []
@@ -176,10 +173,18 @@ def interview_keyword():
         im.save("image.png")
         result = em_predict()
         r2_reaction.append(result)
-        print('Reaction', r2_reaction)
     print('Round 1 Reaction', r1_reaction)
     print('Round 2 Reaction', r2_reaction)
     return render_template('interview_answer.html', title = 'Reaction')
+
+@app.route("/interview_finish", methods=['GET', 'POST'])
+@login_required
+def interview_finish():
+    return render_template('interview_answer.html', title = 'Reaction')
+
+
+def most_common(lst):
+    return max(set(lst), key=lst.count)
 
 
 #USER DASHBOARD
