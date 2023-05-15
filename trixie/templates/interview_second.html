@@ -5,6 +5,31 @@
 {% endblock %}
 {% block content %}
 <div class="wrapper">
+    <div id="myModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content mymodel">
+                <div class="modal-header">
+                    <h4 style="color: #043665; text-align: center; margin: 0 auto; margin-top: 20px;" class="modal-title">
+                        Kindly note the following
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <div class="container">
+                        <ul>
+                            <li>By clicking the below button the interview process will stop.</li>
+                        </ul>
+                        <div class="interview-button">
+                            <button id="accept" class="model-button">
+                                End Interview
+                            </button>
+                        </div>
+                    </div>
+                </div>
+    
+            </div>
+        </div>
+    </div>
     <div class="title-interview">
         <p style="font-family: PoppinsBold; color: #043665; font-size: 40px;">{{job['company_name']}}
             {{job['position']}} Interview</p>

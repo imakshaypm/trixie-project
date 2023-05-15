@@ -87,11 +87,12 @@ def interview_list():
     jobs = mongo.db.JobListings.find({})
     for document in jobs:
         resume_score = document['resume_score']
+        selected = document['selected_candidates']
         desc_id = grid_fs.get(document['desc_id'])
         with open('description.docx', 'wb+') as output:
             output.write(desc_id.read())
         result = str(resumes('resume.docx', 'description.docx'))
-        if result >= resume_score:
+        if result >= resume_score and user['_id'] not in selected:
             job_list.append(document)
     return render_template('interview_list.html', title = 'Interview Lists', job_list = job_list)
 
@@ -102,10 +103,10 @@ def interview(job_id):
     que = []
     job = mongo.db.JobListings.find_one({"_id": ObjectId(job_id)})
     qestions = mongo.db.InterviewQuestions.find_one({"_id": ObjectId(job['question'])})
+    
     for question in qestions:
         if question != '_id':
             que.append(question)
-    
     return render_template('interview.html', title = 'First Round', job = job, job_id = job_id, question = que)
 
 keys = []
@@ -153,7 +154,7 @@ def interview_second(job_id):
                     second_round.append(q)
                     index = keyw[q_arr].index(q)
                     del(keyw[q_arr][index])
-    print(second_round)
+    print("Questions", second_round)
     return render_template('interview_second.html', title = "Second Round", job = job, job_id = job_id, question = second_round)
 
 r1_reaction = []
@@ -173,19 +174,38 @@ def interview_keyword():
         im.save("image.png")
         result = em_predict()
         r2_reaction.append(result)
-    print('Round 1 Reaction', r1_reaction)
-    print('Round 2 Reaction', r2_reaction)
     return render_template('interview_answer.html', title = 'Reaction')
 
-@app.route("/interview_finish", methods=['GET', 'POST'])
+@app.route("/interview_finish/<job_id>", methods=['GET', 'POST'])
 @login_required
-def interview_finish():
-    return render_template('interview_answer.html', title = 'Reaction')
-
+def interview_finish(job_id):
+    result = False
+    job = mongo.db.JobListings.find_one({"_id": ObjectId(job_id)})
+    user = mongo.db.Users.find_one({"username": current_user.get_id()})
+    score = [{"Angry": 4}, {"Disgusted": 2}, {"Fearful": 3}, {"Happy": 10}, {"Neutral": 5}, {"Sad": 6}, {"Surprised": 9}]
+    print("Reactions", r1_reaction, r2_reaction)
+    print('Keywords', keys)
+    round_1 = most_common(r1_reaction)
+    round_2 = most_common(r2_reaction)
+    keys.clear()
+    r1_reaction.clear()
+    r2_reaction.clear()
+    for x in score:
+        if round_1 in x.keys():
+            r1_score = x[round_1]
+        if round_2 in x.keys():
+            r2_score = x[round_2]
+    final_score = max(r1_score, r2_score)
+    interview_score = int(job['interview_score'])
+    if interview_score <= final_score:
+        result = True
+        mongo.db.JobListings.update_one({'_id': ObjectId(job_id)}, {'$push': {"selected_candidates": ObjectId(user['_id'])}})
+    else:
+        result = False
+    return render_template('interview_finish.html', title = 'Final Result', result = result)
 
 def most_common(lst):
     return max(set(lst), key=lst.count)
-
 
 #USER DASHBOARD
 @app.route("/dashboard_user")
@@ -202,9 +222,16 @@ def dashboard_user():
 @app.route("/dashboard_company")
 def dashboard_company():
     company = mongo.db.Company.find_one({"username": current_user.get_id()})
+    image = grid_fs.get(company['profile_id'])
+    base64_data = codecs.encode(image.read(), 'base64')
+    image = base64_data.decode('utf-8')
+    jobs = list(mongo.db.JobListings.find({'company_username': company['username']}))
+    # j = jobs.reverse()
+    for i in jobs:
+        print(i)
     job_lists = len(list(company['job_lists']))
     # top_3_c = list(user['top_3_resume_screening'])[1:4]
-    return render_template('dashboard_company.html', title = 'Company', company = company, job_lists = job_lists)
+    return render_template('dashboard_company.html', title = 'Company', company = company, job_lists = job_lists, jobs = jobs, img = image)
 
 @app.route("/resume", methods=['GET', 'POST'])
 def resume():
@@ -223,7 +250,7 @@ def resume():
             job = request.form.get('job')
             company = request.form.get('company')
             print(job, company)
-            result = resumes(isthisFile, 'trixie/upload/python-job-description.docx')
+            result = resumes(isthisFile, 'trixie/upload/description.docx')
             return render_template('resume_result.html', title = 'Resume Result', final=result)
         #text = json.loads(request.data) # .forms or .json
         #print()
@@ -331,10 +358,6 @@ def edit_user():
         else:
             flash("Password is incorrect", 'danger') 
     return render_template('edit_user.html', title = 'Search', user = user)
-
-@app.route("/search", methods=['GET', 'POST'])
-def search():
-    return render_template('search.html', title = 'Search')
 
 #JOB LISTING
 @app.route("/job_lists", methods=['GET', 'POST'])

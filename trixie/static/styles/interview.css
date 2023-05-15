@@ -7,6 +7,25 @@
     overflow: hidden;
 }
 
+.interview-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.model-button {
+    border: none;
+    background: #043665;
+    outline: none !important;
+    padding: 15px;
+    padding-left: 30px;
+    padding-right: 30px;
+    border-radius: 30px;
+    text-align: center;
+    font-weight: bold;
+    color: white;
+}
+
 .title-interview {
     padding: 20px;
 }

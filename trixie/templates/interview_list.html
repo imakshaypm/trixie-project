@@ -5,9 +5,10 @@
 {% endblock %}
 {% block content %}
 <div>
-    For Today
-</div>
-<div>
+    {% if job_list %}
+    <div>
+        For Today
+    </div>
     {% for job in job_list %}
     <div class="container">
         <div class="ag-format-container">
@@ -19,15 +20,15 @@
                             {{ job['position'] }}
                         </div>
                         <div class="ag-courses-item_subtitle">
-                            {{ job['desctription'] }}
+                            {{ job['salary'] }} LPA
                         </div>
     
                         <!-- <div class="ag-courses-item_date-box">
-                                            Start:
-                                            <span class="ag-courses-item_date">
-                                                04.11.2022
-                                            </span>
-                                        </div> -->
+                                                Start:
+                                                <span class="ag-courses-item_date">
+                                                    04.11.2022
+                                                </span>
+                                            </div> -->
                         <div class="ag-courses-item_date-box">
                             Start Date:
                             <span class="ag-courses-item_date">
@@ -52,8 +53,8 @@
         </div>
     </div>
     {% endfor %}
-</div>
-<div>
-    For Today
+    {% else %}
+    <div>No Job is Available at this time</div>
+    {% endif %}
 </div>
 {% endblock content %}

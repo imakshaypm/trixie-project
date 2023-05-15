@@ -40,7 +40,7 @@ $('#start-meeting').click(function () {
         window.location.href = '/interview_second/' + job_id;
     }
     if (document.getElementById("start-meeting").value === "Finish Meeting") {
-        window.location.href = '/interview_finish/';
+        window.location.href = '/interview_finish/' + job_id;
     }
 });
 
@@ -73,15 +73,34 @@ $(document).ready(function () {
                 video.srcObject = null;
             }
         }
-        if (document.getElementById("start-meeting").value == "Start Meeting") {
+
+
+        if (document.getElementById("start-meeting").value == "Start Meeting" && round == 'First Round') {
+            $('#myModal').modal('show');
+            $("#accept").click(function () {
+                document.getElementById("start-meeting").value = "Stop Meeting"
+                document.getElementById("start-meeting").style.background = "#F1414F";
+                document.getElementById("mic-icon").className = "bi bi-mic-mute-fill"
+                document.getElementById("mic-button").style.background = "#F1414F"
+                startVideo()
+                cheack()
+                $('#myModal').modal('toggle');
+            });
+        }else if (document.getElementById("start-meeting").value == "Start Meeting" && round == 'Second Round') {
             document.getElementById("start-meeting").value = "Stop Meeting"
             document.getElementById("start-meeting").style.background = "#F1414F";
+            document.getElementById("mic-icon").className = "bi bi-mic-mute-fill"
+            document.getElementById("mic-button").style.background = "#F1414F"
             startVideo()
+            cheack()
         }else{
             clearInterval(myInterval);
             document.getElementById("start-meeting").value = "Start Meeting"
             document.getElementById("start-meeting").style.background = "#043665"
+            document.getElementById("mic-icon").className = "bi bi-mic-fill"
+            document.getElementById("mic-button").style.background = "#043665"
             cameraoff()
+            cheack()
         }
     })
 });
@@ -197,7 +216,12 @@ function getTime() {
 }
 
 function firstBotMessage() {
-    let firstMessage = "If you are ready you can start the meeting."
+    let firstMessage
+    if (round == 'First Round'){
+        firstMessage = "If you are ready you can start the first round by saying hello after clicking start meeting button."
+    }else{
+        firstMessage = "If you are ready you can start the second round by saying hello after clicking start meeting button."
+    }
     document.getElementById("botStarterMessage").innerHTML = '<p class="botText"><span>' + firstMessage + '</span></p>'
 
     let time = getTime();

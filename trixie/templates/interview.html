@@ -5,6 +5,42 @@
 {% endblock %}
 {% block content %}
 <div class="wrapper">
+    <div id="myModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content mymodel">
+                <div class="modal-header">
+                    <h4 style="color: #043665; text-align: center; margin: 0 auto; margin-top: 20px;" class="modal-title">
+                        Kindly note the following
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <div class="container">
+                        <ul>
+                            <li>You should have a system with a working webcam and a microphone.</li>
+                            <li>You should use headphones.</li>
+                            <li>The minimum internet bandwidth required at your end is 5 Mbps.</li>
+                            <li>This is an online proctored assessment, your movements and PC activity is monitored remotely. Please do not use the phone, take help from others to answer the assessment.</li>
+                            <li>Break/Bio break are not allowed during the exam, so please ensure you are present for the whole duration of the exam without any disruption.</li>
+                            <li>The audio and video will also be captured during the exam.</li>
+                            <li>You should not be seen often looking away or down from the screen.</li>
+                            <li>Do not keep any mobile or other assistive device on your desk or near you.</li>
+                            <li>Make sure your light source comes from behind your computer and your background is not distracting.</li>
+                            <li>Be confident, smile, make eye contact and actively listen to your interviewer throughout.</li>
+                            <li>If the text is not showing click to off the mic and then on it again.</li>
+                            <li><b>By clicking the below button you accept all the above mentioned conditions.</b></li>
+                        </ul>
+                        <div class="interview-button">
+                            <button id="accept" class="model-button">
+                                Start Interview
+                            </button>
+                        </div>
+                    </div>
+                </div>
+    
+            </div>
+        </div>
+    </div>
     <div class="title-interview">
         <p style="font-family: PoppinsBold; color: #043665; font-size: 40px;">{{job['company_name']}} {{job['position']}} Interview</p>
         <div class="rec-date">
@@ -23,8 +59,8 @@
             </div>
             <div class="interview-buttons">
                 <div class="meet-icons">
-                    <button onclick="stopVedio()" class="rounded-buttons">
-                        <i class="bi bi-camera-video-off-fill" style="font-size: 30px;"></i>
+                    <button id="camaraoff" class="rounded-buttons">
+                        <i id="video-off" class="bi bi-camera-video-off-fill" style="font-size: 30px;"></i>
                     </button>
                     <button onclick="cheack()" id="mic-button" class="rounded-buttons">
                         <i id="mic-icon" class="bi bi-mic-mute-fill" style="font-size: 30px;"></i>

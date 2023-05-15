@@ -71,6 +71,7 @@
                     <ul>
                         {% for href, id, caption in navigation_bar %}
                             <li {% if id == active_page %} class="nav-link active-link" {% else %} class="nav-link" {% endif %}>
+                                
                                 <a class="nav-item" href="{{ href|e }}">{{ caption|e }}</a>
                                 <div class="underline"></div>
                             </li>
