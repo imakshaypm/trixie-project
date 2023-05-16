@@ -26,4 +26,7 @@ def em_predict():
 
     prediction = emotion_model.predict([prepare('image.png')])
     result = str(CATEGORIES[int(np.argmax(prediction[0]))])
+    # print(emotion_model.summary())
     return result
+
+# em_predict()

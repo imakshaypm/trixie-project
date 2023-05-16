@@ -226,12 +226,24 @@ def dashboard_company():
     base64_data = codecs.encode(image.read(), 'base64')
     image = base64_data.decode('utf-8')
     jobs = list(mongo.db.JobListings.find({'company_username': company['username']}))
-    # j = jobs.reverse()
-    for i in jobs:
-        print(i)
+    jobs = jobs[::-1]
     job_lists = len(list(company['job_lists']))
     # top_3_c = list(user['top_3_resume_screening'])[1:4]
     return render_template('dashboard_company.html', title = 'Company', company = company, job_lists = job_lists, jobs = jobs, img = image)
+
+@app.route("/selected_candidates/<job_id>")
+def selected_candidate(job_id):
+    p_candidates = []
+    job = mongo.db.JobListings.find_one({'_id': ObjectId(job_id)})
+    candidates = job['selected_candidates']
+    for obj in candidates:
+        user = mongo.db.Users.find_one({"_id": ObjectId(obj)})
+        image = grid_fs.get(user['profile_id'])
+        base64_data = codecs.encode(image.read(), 'base64')
+        image = base64_data.decode('utf-8')
+        user.update({"profile_id" : image})
+        p_candidates.append(user)
+    return render_template('selected_candidates.html', title = 'Selected Candidates', p_candidates = p_candidates)
 
 @app.route("/resume", methods=['GET', 'POST'])
 def resume():
@@ -365,9 +377,10 @@ def job_lists():
     jobs = []
     company = mongo.db.Company.find_one({"username": current_user.get_id()})
     job_list = company['job_lists']
-    job_list.pop(0)
     for job in job_list:
         jobs.append(mongo.db.JobListings.find_one({"_id": job}))
+
+    print(jobs)
     return render_template('job_lists.html', title = 'Job Lists', job_list = jobs)
 
 #ADD JOBS

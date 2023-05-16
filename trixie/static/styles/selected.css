@@ -1,0 +1,117 @@
+.wrap {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.container {
+    width: 20em;
+    background-color: rgb(255, 255, 255);
+    overflow: hidden;
+    border-radius: 1em;
+    text-align: center;
+    font-family: 'Poppins';
+    font-size: 1em;
+    margin: 30px;
+}
+
+.user-image {
+    padding: 3em 0;
+    background-image: linear-gradient(70deg, #FF8117, #FFD262);
+}
+
+.user-image img {
+    width: 7em;
+    height: 7em;
+    border-radius: 50%;
+    box-shadow: 0 0.6em 1.8em;
+    object-fit: cover;
+}
+
+.content {
+    color: #565656;
+    padding: 2.2em;
+}
+
+.name {
+    font-size: 1.5em;
+    text-transform: uppercase;
+}
+
+.username {
+    font-size: 1em;
+    color: #9e9e9e;
+}
+
+.links {
+    display: flex;
+    justify-content: center;
+    margin: 1.5em 0;
+}
+
+.insta:hover {
+    color: rgb(255, 70, 101);
+    transform: scale(2, 2);
+}
+
+.git:hover {
+    color: rgb(0, 0, 0);
+    transform: scale(2, 2);
+}
+
+.linkedin:hover {
+    color: rgba(4, 0, 253, 0.842);
+    transform: scale(2, 2);
+}
+
+.facebook:hover {
+    color: rgb(4, 0, 255);
+    transform: scale(2, 2);
+}
+
+.details {
+    margin-bottom: 1.8em;
+}
+
+
+/* CSS for messagin link */
+
+.effect {
+    text-align: center;
+    display: inline-block;
+    position: relative;
+    text-decoration: none;
+    color: rgb(48, 41, 41);
+    text-transform: capitalize;
+    width: 100%;
+    background-image: linear-gradient(60deg, #0083FD, #61A1DD);
+    font-size: 1.2em;
+    padding: 1em 3em;
+    border-radius: 5em;
+    overflow: hidden;
+}
+
+.effect.effect-4:before {
+    content: "";
+    font-family: "Poppins";
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    font-size: 1.8em;
+    transform: scale(0, 1);
+}
+
+.effect.effect-4:hover {
+    text-indent: -9999px;
+}
+
+.effect.effect-4:hover:before {
+    transform: scale(1, 1);
+    text-indent: 0;
+}

@@ -1,7 +1,38 @@
 {% extends "layout.html" %}
 <!-- {% set active_page = "about" %} -->
 {% block styles %}
-<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/about.css') }}">
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/selected.css') }}">
 {% endblock %}
 {% block content %}
+<div class="wrap">
+    {% if p_candidates %}
+    {% for candidate in p_candidates %}
+    <div class="container">
+        <div class="user-image">
+            <img src="data:image/png;base64, {{ candidate['profile_id'] }}" alt=" this image contains user-image">
+        </div>
+    
+        <div class="content">
+            <h3 class="name">{{ candidate['name'] }}</h3>
+            <p class="username">@{{ candidate['username'] }}</p>
+    
+    
+    
+            <p class="details">
+                {{ candidate['email'] }}
+            </p>
+    
+    
+            <a class="effect effect-4" href="mailto: {{ candidate['email'] }}">
+                Send Mail
+            </a>
+        </div>
+    </div>
+    {% endfor %}
+    {% else %}
+    <div style="color: white" >
+        No Cadidates Have Been Selected
+    </div>
+    {% endif %}
+</div>
 {% endblock content %}
