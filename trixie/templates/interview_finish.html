@@ -1,5 +1,5 @@
 {% extends "layout.html" %}
-{% set active_page = "about" %}
+{% set active_page = "interview_list" %}
 {% block styles %}
 <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/resume_result.css') }}">
 {% endblock %}
@@ -15,9 +15,9 @@
         <div class="single-chart-1">
             <svg viewBox="0 -4 40 40" class="circular-chart orange">
                 <path class="circle-bg" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
-                <path class="circle" stroke-dasharray="{{final}}, 100"
+                <path class="circle" stroke-dasharray="{{ final_score }}, 10"
                     d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
-                <text x="18" y="20.35" class="percentage">{{final}}%</text>
+                <text x="18" y="20.35" class="percentage">{{ final_score }}/7</text>
             </svg>
         </div>
     </div>
@@ -30,9 +30,9 @@
         <div class="single-chart-1">
             <svg viewBox="0 -4 40 40" class="circular-chart orange">
                 <path class="circle-bg" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
-                <path class="circle" stroke-dasharray="{{final}}, 100"
+                <path class="circle" stroke-dasharray="{{ final_score }}, 10"
                     d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
-                <text x="18" y="20.35" class="percentage">{{final}}%</text>
+                <text x="18" y="20.35" class="percentage">{{ final_score }}/7</text>
             </svg>
         </div>
     </div>
@@ -40,7 +40,7 @@
     <p class="middle-text">Do you like to continue and apply for interview</p>
     <div class="bottom-section">
         <div class="picture-frame">
-            <img width="350px" src="./static/photos/interview-taking.png" alt="">
+            <img width="350px" src="../static/photos/interview-taking.png" alt="">
         </div>
         <div class="sub-text">
             <p class="sub-heading-2">You have a chance of getting the interview for company's that are looking for the
@@ -50,5 +50,4 @@
     </div>
 </div>
 <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-<script type="text/javascript" src="static/js/resume_result.js"></script>
 {% endblock content %}

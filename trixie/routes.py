@@ -88,11 +88,12 @@ def interview_list():
     for document in jobs:
         resume_score = document['resume_score']
         selected = document['selected_candidates']
+        attented = document['attented_candidates']
         desc_id = grid_fs.get(document['desc_id'])
         with open('description.docx', 'wb+') as output:
             output.write(desc_id.read())
         result = str(resumes('resume.docx', 'description.docx'))
-        if result >= resume_score and user['_id'] not in selected:
+        if result >= resume_score and user['_id'] not in selected and user['_id'] not in attented:
             job_list.append(document)
     return render_template('interview_list.html', title = 'Interview Lists', job_list = job_list)
 
@@ -132,7 +133,7 @@ keyw.pop("_id")
 def interview_second(job_id):
     second_round = []
     job = mongo.db.JobListings.find_one({"_id": ObjectId(job_id)})
-    if len(keys) == 0:
+    if len(keys) <= 5:
         for i in range(6):
             q_arr = random.choice([arr for arr in keyw.keys()])
             q = random.choice(keyw[q_arr])
@@ -167,6 +168,7 @@ def interview_keyword():
         im = Image.open(io.BytesIO(base64.b64decode(image_b64.split(',')[0])))
         im.save("image.png")
         result = em_predict()
+        print(result)
         r1_reaction.append(result)
     else:
         image_b64 = request.values['imageBase64']
@@ -182,7 +184,7 @@ def interview_finish(job_id):
     result = False
     job = mongo.db.JobListings.find_one({"_id": ObjectId(job_id)})
     user = mongo.db.Users.find_one({"username": current_user.get_id()})
-    score = [{"Angry": 4}, {"Disgusted": 2}, {"Fearful": 3}, {"Happy": 10}, {"Neutral": 5}, {"Sad": 6}, {"Surprised": 9}]
+    score = [{"Angry": 3}, {"Disgusted": 2}, {"Fearful": 1}, {"Happy": 7}, {"Neutral": 5}, {"Sad": 4}, {"Surprised": 6}]
     print("Reactions", r1_reaction, r2_reaction)
     print('Keywords', keys)
     round_1 = most_common(r1_reaction)
@@ -200,9 +202,11 @@ def interview_finish(job_id):
     if interview_score <= final_score:
         result = True
         mongo.db.JobListings.update_one({'_id': ObjectId(job_id)}, {'$push': {"selected_candidates": ObjectId(user['_id'])}})
+        mongo.db.JobListings.update_one({'_id': ObjectId(job_id)}, {'$push': {"attented_candidates": ObjectId(user['_id'])}})
     else:
         result = False
-    return render_template('interview_finish.html', title = 'Final Result', result = result)
+        mongo.db.JobListings.update_one({'_id': ObjectId(job_id)}, {'$push': {"attented_candidates": ObjectId(user['_id'])}})
+    return render_template('interview_finish.html', title = 'Final Result', result = result, final_score = final_score)
 
 def most_common(lst):
     return max(set(lst), key=lst.count)
@@ -379,8 +383,6 @@ def job_lists():
     job_list = company['job_lists']
     for job in job_list:
         jobs.append(mongo.db.JobListings.find_one({"_id": job}))
-
-    print(jobs)
     return render_template('job_lists.html', title = 'Job Lists', job_list = jobs)
 
 #ADD JOBS
@@ -410,7 +412,8 @@ def add_job():
             "salary": salary,
             "last_date": last_date,
             "interview_score": interview_score,
-            'selected_candidates':[]
+            'selected_candidates':[],
+            "attented_candidates":[]
         })
         mongo.db.Company.update_one({"username": current_user.get_id()}, {"$push" : {"job_lists": x.inserted_id}})
         flash("Job Added to Database", 'success')

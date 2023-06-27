@@ -30,7 +30,11 @@ function getBotResponse(input) {
     } else if (input == "goodbye") {
         return "Talk to you later!";
     } else {
-        return "Try asking something else!";
+        if (round == "First Round") {
+            return "Round One is completed click on the button to go to second round!";
+        }else{
+            return "Round Two is completed click on the button to go to end the interview!";
+        }
     }
 }
 
